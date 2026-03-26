@@ -5,6 +5,6 @@ export enum Lang {
 
 export interface IBasePageProps {
   params: Promise<{
-    lang: Lang
+    lang: string
   }>
 }

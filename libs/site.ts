@@ -18,8 +18,8 @@ export const SITE_NAV_ITEMS = [
   },
 ] as const;
 
-export const resolveContentLang = (lang: Lang): Lang =>
-  lang === Lang.En ? DEFAULT_CONTENT_LANG : lang;
+export const resolveContentLang = (lang: string): Lang =>
+  lang === Lang.En ? DEFAULT_CONTENT_LANG : (lang as Lang);
 
 export const toCanonicalPath = (path = "") => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;

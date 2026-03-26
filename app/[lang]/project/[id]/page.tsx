@@ -9,13 +9,12 @@ import ZoomableImage from "@/components/UI/ZoomableImage";
 import { PROJECT_TYPE_NAME } from "@/constants/common";
 import { PROJECT_PARAGRAPH } from "@/constants/project";
 import { getProjectById } from "@/libs/content";
-import { Lang } from "@/types/common";
 import { Project, ProjectParagraph } from "@/types/project";
 
 interface IProjectPageProps {
   params: Promise<{
     id: string
-    lang: Lang
+    lang: string
   }>
 }
 

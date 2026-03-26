@@ -72,8 +72,8 @@ const RootLayout = async ({ children, params }: Props) => {
     label,
     href:
       key === "project"
-        ? Route.project.list({ lang })
-        : Route.resume.detail({ lang }),
+        ? Route.project.list({ lang: contentLang })
+        : Route.resume.detail({ lang: contentLang }),
   }));
 
   return (

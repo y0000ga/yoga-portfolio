@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
 import { getProjectById } from "@/libs/content";
 import { createPageMetadata } from "@/libs/site";
-import { Lang } from "@/types/common";
 
 interface ProjectLayoutProps {
   params: Promise<{
     id: string;
-    lang: Lang;
+    lang: string;
   }>;
 }
 
