@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/* TODO: 新增明暗主題時，要新設定 variable */
+
+:root {
+  /* Brand Colors */
+  --color-primary-T10: #00E5FF; /* Cyan / Neon Blue */
+  --color-primary-T20: #81ECFF; /* Light Cyan */
+  --color-primary-T30: hsl(188 100% 62% / 0.16);
+  
+  /* Neutral / Surface Colors */
+  --color-surface-T10: #0E0E0E; /* Deep Black (Background) */
+  --color-surface-T20: #131313; /* Dark Gray (Surface) */
+  --color-surface-T30: #1A1A1A; /* Gray (Container) */
+  --color-surface-T40: #262626; /* Light Gray (Hover/Active) */
+  --color-surface-T50: hsl(0 0% 100% / 0.04);
+  
+  /* Text Colors */
+  --color-text-T10: #FFFFFF;    /* Pure White */
+  --color-text-T20: hsl(0 0% 100% / 0.7); /* White with 70% opacity */
+  --color-text-T30:  hsl(0 0% 100% / 0.4); /* White with 40% opacity */
+  
+  /* Accents & Others */
+  --color-border-T10: hsl(0 0% 100% / 0.08);
+  --shadow-panel: 0 24px 80px hsl(0 0% 0% / 0.28);
+  --shadow-glow: 0 0 0 1px hsl(188 100% 62% / 0.18), 0 18px 60px hsl(188 100% 62% / 0.08);
+}
+
+@theme inline {
+  --color-background: var(--color-surface-T10);
+  --color-foreground: var(--color-surface-T10);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-primary-T10: var(--color-primary-T10);
+  --color-primary-T20: var(--color-primary-T20);
+  --color-primary-T30: var(--color-primary-T30);
+  --color-surface-T10: var(--color-surface-T10);
+  --color-surface-T20: var(--color-surface-T20);
+  --color-surface-T30: var(--color-surface-T30);
+  --color-surface-T40: var(--color-surface-T40);
+  --color-surface-T50: var(--color-surface-T50);
+
+  --color-text-T10: var(--color-text-T10);
+  --color-text-T20: var(--color-text-T20);
+  --color-text-T30: var(--color-text-T30);
+  --color-border-T10: var(--color-border-T10);
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  /* Brand Colors */
+  --color-primary-T10: #00E5FF; /* Cyan / Neon Blue */
+  --color-primary-T20: #81ECFF; /* Light Cyan */
+  
+  /* Neutral / Surface Colors */
+  --color-surface-T10: #0E0E0E; /* Deep Black (Background) */
+  --color-surface-T20: #131313; /* Dark Gray (Surface) */
+  --color-surface-T30: #1A1A1A; /* Gray (Container) */
+  --color-surface-T40: #262626; /* Light Gray (Hover/Active) */
+  
+  /* Text Colors */
+  --color-text-T10: #FFFFFF;    /* Pure White */
+  --color-text-T20: #FFFFFF/70; /* White with 70% opacity */
+  --color-text-T30: #FFFFFF/40; /* White with 40% opacity */
+  
+  /* Accents & Others */
+  --color-border-T10: #FFFFFF/5; /* Subtle Border */
+  }
+}
+
+body {
+  background-color: #0c0f11;
+  color: var(--color-text-T10);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: -22rem;
+  left: 50%;
+  width: 72rem;
+  height: 72rem;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  pointer-events: none;
+  background: hsl(188 100% 62% / 0.06);
+  filter: blur(140px);
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, hsl(200 18% 12% / 0.18) 0%, transparent 32%),
+    radial-gradient(circle at 50% 0%, hsl(188 100% 62% / 0.035), transparent 48%);
+  z-index: -2;
+}
+
+p {
+  @apply leading-relaxed text-base;
+}
+
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-semibold;
+}
+
+h3 {
+  @apply text-2xl font-semibold;
+}
+
+h4 {
+  @apply text-xl font-semibold;
+}
+
+h5 {
+  @apply text-lg;
+}
+
+a {
+  @apply transition-colors;
+}
+
+::selection {
+  background: hsl(188 100% 62% / 0.3);
+  color: white;
+}
