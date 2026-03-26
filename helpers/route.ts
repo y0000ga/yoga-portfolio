@@ -1,5 +1,3 @@
-import { Lang } from "@/types/common";
-
 export const Route = {
     resume: {
         detail: ({ lang }: { lang: string }) => `/${lang}/resume`
