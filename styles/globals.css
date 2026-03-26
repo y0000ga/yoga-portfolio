@@ -69,12 +69,18 @@
   }
 }
 
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   background-color: #0c0f11;
   color: var(--color-text-T10);
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body::before {
@@ -82,8 +88,8 @@ body::before {
   position: absolute;
   top: -22rem;
   left: 50%;
-  width: 72rem;
-  height: 72rem;
+  width: min(72rem, 100vw);
+  height: min(72rem, 100vw);
   transform: translateX(-50%);
   border-radius: 9999px;
   pointer-events: none;

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
@@ -62,6 +62,13 @@ export const metadata: Metadata = {
   }),
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0f1114",
+};
+
 type Props = Readonly<PropsWithChildren<IBasePageProps>>;
 
 const RootLayout = async ({ children, params }: Props) => {
@@ -82,19 +89,22 @@ const RootLayout = async ({ children, params }: Props) => {
       className={classNames(
         geistMono.variable,
         geistSans.variable,
-        "h-full antialiased"
+        "h-full antialiased border border-red-500"
       )}
     >
       <body className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-8 px-4 md:gap-10 md:px-8">
-        <nav className="fixed left-1/2 top-4 z-20 flex w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 items-center justify-between rounded-2xl border border-border-T10 bg-surface-T50/85 px-4 py-3 shadow-[var(--shadow-panel)] backdrop-blur md:top-6 md:w-[calc(100%-4rem)] md:px-6 md:py-4">
-          <Link href={`/${lang}`} className="flex items-center gap-2 md:gap-4">
-            <CommandLineIcon className="size-6 text-primary-T10 md:size-12" />
-            <span className="text-lg font-semibold text-primary-T10 md:text-3xl">
+        <nav className="fixed inset-x-4 top-4 z-20 mx-auto flex w-auto max-w-7xl flex-col gap-3 rounded-2xl border border-border-T10 bg-surface-T50/85 px-4 py-3 shadow-[var(--shadow-panel)] backdrop-blur sm:flex-row sm:items-center sm:justify-between md:inset-x-8 md:top-6 md:px-6 md:py-4">
+          <Link
+            href={`/${lang}`}
+            className="flex min-w-0 items-center gap-2 md:gap-4"
+          >
+            <CommandLineIcon className="size-6 shrink-0 text-primary-T10 md:size-12" />
+            <span className="truncate text-base font-semibold text-primary-T10 sm:text-lg md:text-3xl">
               {SITE_NAME}
             </span>
           </Link>
 
-          <div className="flex gap-2 text-[14px] md:gap-3 md:text-[18px]">
+          <div className="flex flex-wrap gap-2 text-[13px] sm:justify-end md:gap-3 md:text-[18px]">
             {navs.map(({ href, label }) => (
               <Link
                 key={label}
@@ -107,7 +117,7 @@ const RootLayout = async ({ children, params }: Props) => {
           </div>
         </nav>
 
-        <main className="mt-28 w-full md:mt-36">{children}</main>
+        <main className="mt-36 w-full sm:mt-28 md:mt-36">{children}</main>
 
         <BackToTop />
 
