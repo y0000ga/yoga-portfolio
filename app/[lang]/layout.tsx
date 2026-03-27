@@ -19,6 +19,7 @@ import "@/styles/globals.css";
 import { IBasePageProps } from "@/types/common";
 import { BackToTop } from "@/components/UI/Scroll";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -148,6 +149,7 @@ const RootLayout = async ({ children, params }: Props) => {
         </footer>
       </body>
       <Analytics />
+      <SpeedInsights />
     </html>
   );
 };
