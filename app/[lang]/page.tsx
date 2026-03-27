@@ -11,7 +11,7 @@ import { IBasePageProps } from "@/types/common";
 import classNames from "classnames";
 
 export const metadata: Metadata = {
-  title: "首頁",
+  title: "首頁 | yoga.dev",
   description: "前端工程師作品集，聚焦 React、Next.js、SEO 與產品導向的介面實作。",
 };
 

@@ -269,7 +269,9 @@ export const TEMP_DATA_RESUME: IResume = {
                     '獨立開發 QRCode 叫車流程，導入 狀態機 建模並達成 100% 核心流程 E2E 覆蓋',
                     '建立據點叫車自動化測試，並完成 CMS 200+ 冒煙測項，提升回歸測試效率與系統穩定性',
                 ],
-                links: []
+                links: [
+                    { label: `作品集連結 - ${TEMP_DATA_STATE_MACHINE.title}`, value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: TEMP_DATA_STATE_MACHINE.id })}` }
+                ]
             },
             {
                 title: 'AIO / SEO 分析與檢核平台（0→1）',
