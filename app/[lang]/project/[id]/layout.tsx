@@ -18,7 +18,7 @@ export const generateMetadata = async ({
 
   if (!project) {
     return createPageMetadata({
-      title: "找不到作品 | yoga.dev",
+      title: "找不到作品",
       description: "此作品不存在，或已從作品集中移除。",
       path: `/project/${id}`,
     });

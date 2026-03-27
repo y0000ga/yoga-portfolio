@@ -8,9 +8,7 @@ export const GET = async (_: Request) => {
         const list = await getProjectList()
 
         return createApiRes<IGetProjectListResData>({
-            data: {
-                list
-            }
+            data: { list }
         })
     } catch (error) {
         return createApiRes<null>({ error })

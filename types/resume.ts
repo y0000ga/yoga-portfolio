@@ -10,7 +10,8 @@ interface IAchievementItem {
     title: string,
     intro: string,
     techStack: string[],
-    results: string[]
+    results: string[],
+    links: Array<{value:string,label:string,}>
 }
 
 interface IEducationItem {
@@ -28,6 +29,7 @@ interface ISkillItem {
 }
 
 export interface IResume {
+    keywords: string[],
     workExperince: {
         list: Array<IWorkExperienceItem>
     },
@@ -44,7 +46,7 @@ export interface IResume {
     }
 }
 
-export type TResumeOverview = Pick<IResume, 'intro'>
+export type TResumeOverview = Pick<IResume, 'intro' | 'keywords'>
 
 export enum ResumeParagraph {
     Achievement = 'Achievement',

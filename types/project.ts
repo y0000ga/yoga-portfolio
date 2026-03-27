@@ -4,7 +4,6 @@ interface IDecision {
 }
 
 interface IArchitecture {
-    solutions: string[],
     images: IMedia[],
 }
 
@@ -12,11 +11,10 @@ interface IBaseProject {
     title: string,
     problems: string[],
     architecture: IArchitecture,
-    decisions: Array<IDecision>,
+    solution: string[],
     impacts: string[],
     intro: string,
     id: string,
-    tradeOffs: string[],
     demos: Array<IMedia>,
 }
 
@@ -37,31 +35,21 @@ export interface ICaseStudy extends IBaseProject {
         team: string,
         role: string
     },
-    challenges: string[],
-    ownership: string[],
-    execution: string[]
 }
 
 export interface ISideProject extends IBaseProject {
     type: Project.SideProject,
     repoURL: string,
-    futureWorks: string[]
 }
 
 export type IProject = ICaseStudy | ISideProject
 
-export type IProjectIntro  =  Pick<IProject, 'id' | 'title' | 'intro'>
+export type IProjectIntro = Pick<IProject, 'id' | 'title' | 'intro'>
 
 export enum ProjectParagraph {
-  Overview ='Overview',
-  Demo = 'Demo',
-  Problem = 'Problem',
-  Challenge = 'Challenge',
-  Solution = 'Solution',
-  Decision = 'Decision',
-  TradeOff = 'TradeOff',
-  Impact = 'Impact',
-  Execution = 'execution',
-  Ownership='ownership',
-  FutureWorks = '未來計畫'
+    Overview = 'Overview',
+    Demo = 'Demo',
+    Problem = 'Problem',
+    Solution = 'Solution',
+    Impact = 'Impact'
 }

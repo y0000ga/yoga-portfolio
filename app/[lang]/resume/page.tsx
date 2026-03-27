@@ -3,6 +3,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import { ElementType } from "react";
 import { notFound } from "next/navigation";
+import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/solid";
 import Paragraph from "@/components/UI/Paragraph";
 import { IconInfo, InfoList, ListItem, LocationPeriod } from "@/components/UI/Content";
 import HighlightText from "@/components/UI/HighLightText";
@@ -13,7 +14,6 @@ import { LINKS } from "@/constants/common";
 import { RESUME_PARAGRAPH } from "@/constants/resume";
 import { getResumeDetail } from "@/libs/content";
 import { ResumeParagraph } from "@/types/resume";
-import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/solid";
 
 const PARAGRAPHS = [
   ResumeParagraph.Experince,
@@ -23,7 +23,7 @@ const PARAGRAPHS = [
 ].map((id) => ({ id, title: RESUME_PARAGRAPH[id] }));
 
 export const metadata: Metadata = {
-  title: "履歷 | yoga.dev",
+  title: "履歷",
   description: "前端工程師履歷，整理工作經歷、成果、技能與學歷。",
 };
 
@@ -41,6 +41,7 @@ const Page = async () => {
     education,
     email,
     skill,
+    keywords
   } = res;
 
   return (
@@ -53,19 +54,18 @@ const Page = async () => {
             fill
             className="object-cover object-[50%_20%]"
             priority
+            sizes="1"
           />
         </div>
-
         <div className="flex min-w-0 flex-col gap-5">
           <div className="space-y-3">
             <h1 className="text-[36px] leading-none md:text-[72px]">
               <span className="text-primary-T10">黃</span>于家
             </h1>
             <h2 className="text-[18px] font-semibold text-text-T20 md:text-[32px]">
-              前端 | React / Next.js | 效能優化 | 自動化測試
+              {keywords.join(' | ')}
             </h2>
           </div>
-
           <div className="flex flex-col md:flex-row gap-3">
             {LINKS.map(({ url, type }) => {
               let icon: ElementType | null = null;
@@ -79,7 +79,6 @@ const Page = async () => {
                 default:
                   break;
               }
-
               return icon ? <IconInfo icon={icon} key={url} url={url} /> : null;
             })}
             <IconInfo icon={HomeIcon}>
@@ -111,13 +110,28 @@ const Page = async () => {
       </Paragraph>
 
       <Paragraph title={RESUME_PARAGRAPH[ResumeParagraph.Achievement]} id={ResumeParagraph.Achievement}>
-        {achievement.list.map(({ title, intro: achievementIntro, techStack, results }) => (
+        {achievement.list.map(({ title, intro: achievementIntro, techStack, results, links }) => (
           <ListItem title={title} key={title}>
             <p><HighlightText text={achievementIntro} /></p>
             <h5>成果</h5>
             <InfoList list={results} />
             <h5>技術</h5>
             <Tags list={techStack} />
+            {links.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {links.map(({ label, value }) => (
+                  <a
+                    key={`${label}-${value}`}
+                    href={value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-border-T10 bg-surface-T50 px-3 py-1.5 text-sm text-text-T20 transition-all hover:border-primary-T10/50 hover:text-primary-T10"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            )}
           </ListItem>
         ))}
       </Paragraph>

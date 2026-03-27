@@ -6,7 +6,7 @@ import { IBasePageProps } from "@/types/common";
 import { Project } from "@/types/project";
 
 export const metadata: Metadata = {
-  title: "作品集 | yoga.dev",
+  title: "作品集",
   description: "收錄前端案例研究與 side project，涵蓋 SEO、狀態設計、UI 系統與工作流程工具。",
 };
 

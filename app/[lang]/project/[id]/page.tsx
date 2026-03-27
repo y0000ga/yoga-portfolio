@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { IconInfo, InfoList, ListItem } from "@/components/UI/Content";
-import HighlightText from "@/components/UI/HighLightText";
+import { IconInfo, InfoList } from "@/components/UI/Content";
 import { GithubIcon } from "@/components/UI/Icon";
 import { AsidePage } from "@/components/UI/Page";
 import Paragraph from "@/components/UI/Paragraph";
@@ -24,7 +23,7 @@ export const generateMetadata = async ({ params }: IProjectPageProps): Promise<M
 
   if (!project) {
     return {
-      title: "找不到作品 | yoga.dev",
+      title: "找不到作品",
     };
   }
 
@@ -42,20 +41,14 @@ const Page = async ({ params }: IProjectPageProps) => {
     notFound();
   }
 
-  const { type, title, problems, impacts, architecture, decisions, intro, tradeOffs } = project;
+  const { type, title, problems, impacts, architecture, intro, solution } = project;
 
   const PARAGRAPHS = [
     ...(type === Project.CaseStudy ? [ProjectParagraph.Overview] : []),
     ProjectParagraph.Demo,
     ProjectParagraph.Problem,
-    ...(type === Project.CaseStudy ? [ProjectParagraph.Challenge] : []),
     ProjectParagraph.Solution,
-    ProjectParagraph.Decision,
-    ProjectParagraph.TradeOff,
-    ...(type === Project.CaseStudy ? [ProjectParagraph.Execution] : []),
     ProjectParagraph.Impact,
-    ...(type === Project.CaseStudy ? [ProjectParagraph.Ownership] : []),
-    ...(type === Project.SideProject ? [ProjectParagraph.FutureWorks] : []),
   ].map((id) => ({ id, title: PROJECT_PARAGRAPH[id] }));
 
   const getShowcaseClassName = () =>
@@ -113,7 +106,7 @@ const Page = async ({ params }: IProjectPageProps) => {
                 alt={content}
               />
             </div>
-            <p className="mx-auto w-full text-text-T20">{content}</p>
+            <p className="mx-auto w-full text-text-T20 text-center">{content}</p>
           </li>
         ))}
       </Paragraph>
@@ -125,20 +118,11 @@ const Page = async ({ params }: IProjectPageProps) => {
         <InfoList list={problems} />
       </Paragraph>
 
-      {type === Project.CaseStudy && (
-        <Paragraph
-          id={ProjectParagraph.Challenge}
-          title={PROJECT_PARAGRAPH[ProjectParagraph.Challenge]}
-        >
-          <InfoList list={project.challenges} />
-        </Paragraph>
-      )}
-
       <Paragraph
         id={ProjectParagraph.Solution}
         title={PROJECT_PARAGRAPH[ProjectParagraph.Solution]}
       >
-        <InfoList list={architecture.solutions} />
+        <InfoList list={solution} />
         <ul className="flex flex-col gap-3">
           {architecture.images.map(({ mediaURL, content }) => (
             <li key={content} className="flex w-full flex-col gap-3">
@@ -159,56 +143,11 @@ const Page = async ({ params }: IProjectPageProps) => {
       </Paragraph>
 
       <Paragraph
-        id={ProjectParagraph.Decision}
-        title={PROJECT_PARAGRAPH[ProjectParagraph.Decision]}
-      >
-        {decisions.map(({ answer, question }) => (
-          <ListItem key={question} title={question}>
-            <HighlightText text={answer} />
-          </ListItem>
-        ))}
-      </Paragraph>
-
-      <Paragraph
-        id={ProjectParagraph.TradeOff}
-        title={PROJECT_PARAGRAPH[ProjectParagraph.TradeOff]}
-      >
-        <InfoList list={tradeOffs} />
-      </Paragraph>
-
-      {type === Project.CaseStudy && (
-        <Paragraph
-          id={ProjectParagraph.Execution}
-          title={PROJECT_PARAGRAPH[ProjectParagraph.Execution]}
-        >
-          <InfoList list={project.execution} />
-        </Paragraph>
-      )}
-
-      <Paragraph
         id={ProjectParagraph.Impact}
         title={PROJECT_PARAGRAPH[ProjectParagraph.Impact]}
       >
         <InfoList list={impacts} />
       </Paragraph>
-
-      {type === Project.CaseStudy && (
-        <Paragraph
-          id={ProjectParagraph.Ownership}
-          title={PROJECT_PARAGRAPH[ProjectParagraph.Ownership]}
-        >
-          <InfoList list={project.ownership} />
-        </Paragraph>
-      )}
-
-      {type === Project.SideProject && (
-        <Paragraph
-          id={ProjectParagraph.FutureWorks}
-          title={PROJECT_PARAGRAPH[ProjectParagraph.FutureWorks]}
-        >
-          <InfoList list={project.futureWorks} />
-        </Paragraph>
-      )}
     </AsidePage>
   );
 };

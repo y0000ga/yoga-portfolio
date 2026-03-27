@@ -4,7 +4,7 @@ import { createPageMetadata } from "@/libs/site";
 import { IBasePageProps } from "@/types/common";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "履歷 | yoga.dev",
+  title: "履歷",
   description: "前端工程師履歷頁，整理工作經歷、成就、技能與學歷。",
   path: "/resume",
 });

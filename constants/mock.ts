@@ -1,371 +1,205 @@
+import { Route } from "@/helpers/route";
+import { Lang } from "@/types/common";
 import { ICaseStudy, ISideProject, Project } from "@/types/project";
+import { IResume } from "@/types/resume";
 
 // 官網重構
 export const TEMP_DATA_YOXI_REFACTOR: ICaseStudy = {
-    demos: [
-        {
-            mediaURL: '/ssr-demo.png',
-            content:
-                '首頁為系統中最具代表性的高負載頁面，包含大量圖片資源與多組 API 請求。在導入 Next.js SSR 並重構資料請求與資源載入策略後，此頁 Lighthouse Performance 可達 97 分，顯示整體 rendering 與 loading flow 已明顯改善。'
-        }
-    ],
     type: Project.CaseStudy,
     id: 'yoxi-refactor',
     title: 'Yoxi 官方網站 SEO 與效能優化',
+
     intro:
-        '將原本以 CSR + Prerender.io 為主的官網架構重構為 Next.js SSR，並同步整理資料請求與元件結構，以提升 SEO 可見性、頁面效能與後續維護性。',
+        '將原本以 CSR + Prerender.io 為主的官網重構為 Next.js SSR，重新整理資料請求、元件結構與資源載入策略，提升 SEO、效能與維護性。',
 
     context: {
-        scale: '多頁官網（20+ pages）',
-        team: 'Frontend 團隊（3 人）',
+        scale: '20+ pages',
+        team: 'Frontend x 3',
         role: 'Frontend 主導開發與架構設計'
     },
 
     problems: [
-        'CSR 架構需依賴 Prerender.io 才能支援搜尋引擎解析，增加成本與維運負擔',
-        'API 請求與資源載入策略缺乏統一設計，影響頁面效能',
-        '既有元件與樣式規則不一致，導致維護成本偏高'
+        'CSR 依賴 Prerender.io，維運成本高',
+        '資料請求與資源載入策略不一致，影響頁面效能',
+        '元件與樣式規則分散，維護成本偏高',
+        '需逐步導入 SSR 並控制重構風險與 CSR/SSR 邊界'
     ],
 
-    challenges: [
-        '需在既有產品上逐步導入 SSR，並控制重構風險',
-        '需同時處理 SEO metadata、資料請求與頁面 rendering 邏輯',
-        '需在 SSR 與 CSR 之間劃分合理邊界，避免架構複雜度失控'
-    ],
-
-    architecture: {
-        solutions: [
-            '採用 Next.js SSR 作為主要 rendering strategy',
-            '建立 page-level data fetching 與 metadata generation 機制',
-            '重構 component 結構，建立以 Tailwind CSS 為基礎的 design system'
-        ],
-        images: [
-            { mediaURL: '/ssr-before-after.png', content: '重構前後 rendering 架構對照' },
-            { mediaURL: '/render-flow.png', content: '重構後頁面資料流與 rendering flow' }
-        ]
-    },
-
-    decisions: [
-        {
-            question: '為什麼選擇 SSR 而非 CSR / SSG？',
-            answer:
-                '官網需兼顧 SEO 與動態內容更新，SSR 能同時滿足搜尋引擎可解析與資料即時性需求。'
-        },
-        {
-            question: '為什麼不使用 Material UI？',
-            answer:
-                '官網元件偏高度客製化，且 SSR 環境下導入與樣式處理成本較高，因此改以 Tailwind CSS 建立自訂 design system。'
-        }
-    ],
-
-    tradeOffs: [
-        'SSR 導入後需承擔額外 server rendering 成本',
-        '部分頁面需採 hybrid CSR/SSR，增加架構管理難度',
-        '重構需逐頁驗證，初期投入成本較高'
-    ],
-
-    execution: [
-        '將既有頁面逐步由 CSR 遷移至 SSR，並保留必要的 hybrid rendering',
-        '重整資料請求方式，將主要請求集中到 page-level',
-        '調整圖片與 script 載入策略，降低 initial load 成本',
-        '抽離共用 UI 結構，建立可重用的 design system 基礎'
+    solution: [
+        '採用 Next.js SSR 作為主要 rendering strategy',
+        '建立 page-level data fetching 與 metadata generation 機制',
+        '重整 API、圖片與 script 載入策略降低 initial load',
+        '建立 Tailwind-based design system 統一元件與樣式',
+        '採逐頁遷移並保留 hybrid CSR/SSR 以降低風險'
     ],
 
     impacts: [
-        '網站整體效能相較原架構提升約 90%',
-        '移除 Prerender.io 依賴，降低第三方成本與維運負擔',
-        'SEO 可見性與後續開發維護性同步改善'
+        '整體效能提升約 90%',
+        '首頁 Lighthouse Performance 達 97 分',
+        '移除 Prerender.io 降低維運成本',
+        '提升 SEO 可見性與開發維護性'
     ],
 
-    ownership: [
-        '主導 SSR 架構選型與遷移策略',
-        '負責核心頁面重構與資料流整理',
-        '協助拆解任務並推進團隊落地'
-    ]
+    demos: [
+        {
+            mediaURL: '/ssr-demo.png',
+            content: '首頁高負載頁面優化後 Lighthouse Performance 達 97'
+        }
+    ],
+
+    architecture: {
+        images: [
+            { mediaURL: '/ssr-before-after.png', content: 'SSR before/after' },
+            { mediaURL: '/render-flow.png', content: 'render flow' }
+        ]
+    },
 }
 
 // SEO/AIO
 export const TEMP_DATA_SEO_AIO: ICaseStudy = {
     type: Project.CaseStudy,
     id: 'aioseo',
-    title: 'AIO / SEO 分析與檢核平台（0→1）',
+    title: 'AIO / SEO 分析平台（0→1）',
 
     intro:
-        '從 0 到 1 規劃 AIO / SEO 分析與檢核平台，整合網站結構資料與內容訊號，建立跨站點的評估、建議與比較流程，作為集團內統一的 SEO/AIO 標準化基礎。',
+        '建立跨站點 SEO/AIO 評估與分析平台，整合多來源資料並建立標準化評分與 Dashboard。',
 
     context: {
-        scale: '輸入頁 + 分析頁 + Dashboard（多站點比較）',
-        team: 'TPM x 1 + Frontend x 1 + Backend x 1',
-        role: 'Frontend 主導產品規劃、架構設計與 UI/UX'
+        scale: '多站點分析平台',
+        team: 'TPM x1 / FE x1 / BE x1',
+        role: 'Frontend 主導產品與架構設計'
     },
 
     problems: [
-        '各子公司網站分散維護，缺乏統一 SEO/AIO 評估標準，品質落差大',
-        '仰賴外部顧問進行分析成本高，且難以持續追蹤與優化'
+        '缺乏統一 SEO/AIO 評估標準',
+        '外部顧問成本高且難持續優化',
+        '不同網站結果不可比較'
     ],
 
-    challenges: [
-        '需定義可跨網站適用的評分模型，避免不同網站間結果不可比較',
-        '需整合多種來源資料（HTML、metadata、結構化資料）並轉換為可分析格式',
-        '評估結果需同時具備「可解釋性」與「可操作建議」'
-    ],
-
-    architecture: {
-        solutions: [
-            '建立爬蟲機制，蒐集 JSON-LD、OpenAPI、robots.txt、sitemap 等結構化與設定資料',
-            '設計評分 pipeline，將多維度指標轉換為可比較的 normalized score',
-            '透過 Dashboard 呈現各站點分析結果，支援橫向比較與問題定位'
-        ],
-        images: [
-            {
-                mediaURL: '/aio-evaluate.png',
-                content: '資料收集 → 評估 → 正規化 → Dashboard 呈現流程'
-            },
-            {
-                mediaURL: '/aio-data-select.png',
-                content: '資料收集細節'
-            },
-            {
-                mediaURL: '/aio-flow.png',
-                content: '評估引擎細節'
-            }
-        ]
-    },
-
-    decisions: [
-        {
-            question: '為什麼採用「正規化評分」而非絕對分數？',
-            answer:
-                '不同網站規模與內容結構差異大，直接使用絕對分數無法公平比較，因此透過 normalization 轉換為相對評分，提高跨站點可比性。'
-        },
-        {
-            question: '為什麼整合多來源資料（JSON-LD / sitemap / metadata）？',
-            answer:
-                '單一來源無法完整反映 SEO/AIO 狀態，多來源整合可更全面評估網站結構、可索引性與語意資訊品質。'
-        },
-        {
-            question: '為什麼導入 AI 作為評分與建議輔助？',
-            answer:
-                '部分評估項目（如內容語意與結構品質）難以透過 rule-based 規則判斷，透過 AI 可提升分析彈性並支援持續優化。'
-        }
-    ],
-
-    tradeOffs: [
-        '採用爬蟲與多來源資料整合，增加系統複雜度與維護成本',
-        'AI 評分具彈性但可解釋性較低，需搭配規則與指標輔助',
-        '正規化評分提升可比性，但可能降低單一網站的絕對判讀精度'
-    ],
-
-    execution: [
-        '設計網站資料收集流程，整合多種結構化與設定資料來源',
-        '建立評分模型與 normalization 機制，統一評估邏輯',
-        '實作分析頁面，呈現評估項目、結果與對應建議',
-        '建立 Dashboard，支援多網站比較與結果追蹤',
-        '導入 AI 輔助評估與建議生成，並持續優化評分準則'
+    solution: [
+        '建立 crawler 收集 JSON-LD / sitemap / metadata',
+        '設計 normalized scoring pipeline',
+        '建立 Dashboard 支援跨站點比較',
+        '整合 AI 進行語意分析與建議生成'
     ],
 
     impacts: [
-        '建立集團共用的 SEO/AIO 評估標準與流程',
-        '降低外部顧問依賴，提升內部分析效率',
-        '提供可比較的分析結果，支援跨站點優化決策'
-    ],
-
-    ownership: [
-        '主導整體產品規劃與評估流程設計',
-        '負責前端架構與 UI/UX 設計',
-        '推動 POC 與評分模型驗證，與 TPM/主管協作調整方向'
+        '建立集團標準化 SEO/AIO 評估流程',
+        '降低外部顧問依賴',
+        '支援跨站點優化決策'
     ],
 
     demos: [
         {
             mediaURL: '/aio-seo-detail.png',
-            content:
-                '分析頁面整合爬蟲結果與評估指標，左側呈現評估項目與建議，右側對應原始資料，提升可解釋性與操作性'
+            content: '分析頁'
         },
         {
             mediaURL: '/aio-seo-chart.png',
-            content:
-                '透過 normalization 評分機制，將不同網站結果轉換為可比較指標，支援跨站點分析與決策'
+            content: '跨站點比較'
         }
-    ]
+    ],
+
+    architecture: {
+        images: [
+            { mediaURL: '/aio-evaluate.png', content: 'pipeline' },
+            { mediaURL: '/aio-flow.png', content: 'engine flow' }
+        ]
+    },
 }
 
 export const TEMP_DATA_STATE_MACHINE: ICaseStudy = {
     type: Project.CaseStudy,
     id: 'state-machine',
-    title: 'State Machine 於 QRCode 掃碼叫車流程之應用',
+    title: 'State Machine：QRCode 叫車流程',
 
     intro:
-        '將 state machine 應用於 QRCode 掃碼叫車流程，將原本容易分散在多個畫面與條件判斷中的流程狀態，整理為可視化、可驗證的狀態模型，並作為 PM、RD 與 Backend 對齊流程的共同語言。',
+        '將複雜叫車流程轉為 state machine，統一狀態與非同步流程管理。',
 
     context: {
-        scale: '輸入資料頁 + 叫車結果頁 + 非同步輪詢狀態',
-        team: 'PM x 1 + Frontend x 1 + Backend x 1',
-        role: '負責前端開發、流程建模與跨角色對齊，並協助 PM 進行競品分析'
+        scale: '多狀態 + async flow',
+        team: 'PM x1 / FE x1 / BE x1',
+        role: '流程建模 + 前端實作'
     },
 
     problems: [
-        'PM 與 RD 在流程定義上缺乏共同語言，需求確認需要反覆來回溝通',
-        '若僅以 useState / boolean flags 管理畫面狀態，流程分支與例外情境容易失控',
-        '叫車流程包含多個非同步狀態與錯誤分支，難以透過一般條件判斷維持可讀性與可維護性'
+        'PM/RD 對流程認知不一致',
+        'useState 管理複雜流程容易失控',
+        '多 async 與錯誤分支難以維護'
     ],
 
-    challenges: [
-        '需將商業流程拆解為明確狀態、事件與轉移條件',
-        '需讓非工程背景的 PM 也能理解 state machine 與流程圖的對應關係',
-        '初期建模成本較高，需先釐清邊界情境與錯誤處理方式'
-    ],
-
-    architecture: {
-        solutions: [
-            '以 state machine 定義主要流程狀態、事件與轉移規則',
-            '將 Wireframe 與流程圖對應到 machine state，作為 PM / RD 共同溝通基礎',
-            '將 loading、success、failure、retry 等非同步流程納入狀態模型統一管理'
-        ],
-        images: [
-            {
-                mediaURL: '/state-machine-flow.png',
-                content: 'QRCode 掃碼叫車流程的 state diagram'
-            }
-        ]
-    },
-
-    decisions: [
-        {
-            question: '為什麼選擇 state machine，而不是一般 React state？',
-            answer:
-                '此流程雖然頁面數不多，但包含明確的狀態切換、非同步請求與錯誤分支。使用 state machine 可將流程限制在可預期的 transition 內，降低條件判斷失控的風險。'
-        },
-        {
-            question: '為什麼要把 state machine 定義提供給 PM？',
-            answer:
-                'state machine 不只用於實作，也可作為流程文件。讓 PM 直接看到狀態與轉移邏輯，可降低需求確認成本，並避免 wireframe 與實作認知落差。'
-        }
-    ],
-
-    tradeOffs: [
-        '初期建模與導入成本高於直接以 component state 實作',
-        '團隊需理解 state machine 的概念，否則前期溝通成本會上升',
-        '對較簡單的單一路徑頁面而言，state machine 可能顯得過度設計'
-    ],
-
-    execution: [
-        '先依 PM wireframe 與競品分析整理主要使用者路徑與例外情境',
-        '將流程拆解為 state、event、transition 與 error branch',
-        '將狀態模型對應回畫面與 API interaction，作為前端實作依據',
-        '將 machine 定義整理為 PM 可理解的流程圖與狀態說明，作為需求溝通與驗收基準'
+    solution: [
+        '以 state machine 定義 state / event / transition',
+        '將 wireframe 對應到 state',
+        '統一 loading / success / error flow',
+        '將流程圖作為 PM/RD 溝通基準'
     ],
 
     impacts: [
-        '降低 PM 與 RD 對流程理解的落差，提升需求確認效率',
-        '讓叫車流程的狀態轉移與例外處理更可預期、可維護',
-        '建立後續複雜流程導入 state machine 的實務基礎'
-    ],
-
-    ownership: [
-        '主導 QRCode 掃碼叫車流程的 state modeling',
-        '負責將 wireframe 與商業流程轉為可實作的狀態機定義',
-        '首次將 state machine 導入團隊開發與需求對齊流程中'
+        '降低溝通成本',
+        '流程更可預期與可維護',
+        '建立複雜流程建模標準'
     ],
 
     demos: [
         {
             mediaURL: '/state-machine-role.png',
-            content: '將 QRCode 掃碼叫車流程轉為明確的狀態圖，讓狀態切換、非同步請求與錯誤分支可視化，最終將 wireframe 與 machine state 對照，讓每個畫面對應到特定 state 與 transition，作為需求討論與實作驗收的共同基準。'
+            content: 'state diagram 對應 UI'
         }
-    ]
+    ],
+
+    architecture: {
+        images: [
+            { mediaURL: '/state-machine-flow.png', content: 'state diagram' }
+        ]
+    },
 }
 
 export const TEMP_DATA_CHROME_EXTENSION: ISideProject = {
     type: Project.SideProject,
     id: 'ai-prompt-workspace',
     title: 'AI Prompt Workspace',
+
     intro:
-        '開發一套用於管理與重用 AI prompts 的 Chrome Extension，支援跨網站內容收集、分類整理與快速存取，作為個人 AI workflow 的基礎工具。',
+        '建立 Chrome Extension 管理與重用 AI prompts，支援跨網站擷取與快速存取。',
 
     problems: [
-        '在日常導入 AI workflow 後，prompt 來源逐漸分散於各網站、文件與對話中，難以統一整理與重用',
-        '若以手動複製貼上方式管理 prompt，維護成本高，且容易遺失上下文與來源資訊',
-        '缺乏一個輕量且可持續使用的工具，將 prompt 收集、分類與後續使用串進同一工作流程中'
+        'prompt 分散於各處難以管理',
+        '手動整理成本高',
+        '缺乏 workflow 整合工具'
     ],
 
-    architecture: {
-        solutions: [
-            '建立可重用的 Prompt Workspace，集中管理 prompts 與來源資訊',
-            '透過 Chrome Context Menu 與 Side Panel 支援跨網站內容擷取與快速存取',
-            '實作標籤、搜尋、釘選與持久化儲存機制，降低 prompt 維護與重用成本'
-        ],
-        images: [
-            {
-                mediaURL: '/prompt-workspace-overview.png',
-                content: 'Prompt Workspace 主畫面，集中管理 prompts、標籤與搜尋結果'
-            },
-            {
-                mediaURL: '/prompt-workspace-flow.png',
-                content: '從網站擷取內容 → 儲存到 Workspace → 搜尋與重用的 workflow'
-            }
-        ]
-    },
-
-    decisions: [
-        {
-            question: '為什麼選擇 Chrome Extension，而不是獨立 Web App？',
-            answer:
-                'Prompt 的主要使用情境發生在瀏覽器中，Chrome Extension 能更貼近實際工作流程，直接支援跨網站擷取與快速存取。'
-        },
-        {
-            question: '為什麼優先使用 local storage / Chrome Storage，而不是先做 backend？',
-            answer:
-                '初期目標是快速驗證個人工具的可用性與 workflow 價值，先以本地儲存降低系統複雜度，保留後續同步與協作擴充空間。'
-        },
-        {
-            question: '為什麼需要標籤、搜尋與釘選機制？',
-            answer:
-                '單純儲存 prompt 不足以支撐長期使用，必須提供分類、檢索與優先排序能力，才能真正融入日常 AI workflow。'
-        }
+    solution: [
+        '建立 Prompt Workspace 集中管理',
+        '整合 Context Menu + Side Panel',
+        '實作 tag / search / pin / storage',
+        '使用 Chrome Storage 做持久化'
     ],
 
     impacts: [
-        '將分散於各網站與對話中的 prompts 集中管理，降低整理與重找成本',
-        '建立可持續重用的 prompt workspace，提升個人 AI workflow 的穩定性與效率',
-        '驗證以 browser-native tooling 支援 AI workflow 的可行性，作為後續擴充基礎'
+        '降低 prompt 管理成本',
+        '提升 AI workflow 效率',
+        '驗證 browser-native 工具可行性'
     ],
-
-    repoURL: 'https://github.com/y0000ga/ai-prompt-workspace',
 
     demos: [
-        {
-            mediaURL: '/prompt-workspace-main.png',
-            content:
-                'Prompt Workspace 主畫面，集中管理 prompts，支援搜尋、標籤與快速操作'
-        },
-        {
-            mediaURL: '/prompt-workspace-search.png',
-            content:
-                '支援多維度篩選（Tag / Site / Search），快速定位目標 prompt，降低重找成本'
-        },
-        {
-            mediaURL: '/prompt-workspace-action.png',
-            content:
-                '提供快速操作（複製 / 編輯 / 刪除 / 釘選），讓 prompt 可即時重用於 AI workflow'
-        }
+        { mediaURL: '/prompt-workspace-main.png', content: '主畫面' },
+        { mediaURL: '/prompt-workspace-search.png', content: '搜尋' },
+        { mediaURL: '/prompt-workspace-action.png', content: '操作' }
     ],
 
-    tradeOffs: [
-        '以 Chrome Extension 為載體可提升使用便利性，但平台受限於瀏覽器生態',
-        '先採用本地儲存可降低複雜度，但暫不支援跨裝置同步與多人協作',
-        '功能設計需在輕量工具與完整知識管理系統之間取捨，避免過度膨脹'
-    ],
+    architecture: {
+        images: [
+            { mediaURL: '/prompt-workspace-overview.png', content: 'overview' },
+            { mediaURL: '/prompt-workspace-flow.png', content: 'flow' }
+        ]
+    },
 
-    futureWorks: [
-        '支援 prompt template 與變數插槽，提高重用與組裝能力',
-        '導入雲端同步，支援跨裝置與多環境使用',
-        '增加來源追蹤與版本管理，提升 prompt 維護性',
-        '探索與其他 AI workflow 工具整合，例如知識庫、CLI 或 agent orchestration'
-    ]
+    repoURL: 'https://github.com/y0000ga/ai-prompt-workspace',
 }
 
-export const TEMP_DATA_RESUME = {
+export const TEMP_DATA_RESUME: IResume = {
+    keywords: ['前端', 'REACT/NEXT.JS', '效能優化', '自動化測試'],
     workExperince: {
         list: [
             {
@@ -420,6 +254,10 @@ export const TEMP_DATA_RESUME = {
                     '透過 "SSR 重構"、lazy-loading、dynamic import、資源預載、圖片優化與請求時機調整，讓 "Lighthouse 分數與整體效能提升約 90%"',
                     '降低 SEO 維護成本，並節省每月約 US$49 的 Prerender.io 固定支出',
                     '完成 分享行程即時司機位置顯示 與 車資預估功能頁 開發',
+                ],
+                links: [
+                    { label: '網站連結', value: 'https://www.yoxi.app/?lang=zh-TW' },
+                    { label: '作品集連結', value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: TEMP_DATA_YOXI_REFACTOR.id })}` }
                 ]
             },
             {
@@ -430,7 +268,8 @@ export const TEMP_DATA_RESUME = {
                     '支援企業、據點、QRCode 與 7,000+ 超商門市 / 機台 等多通路叫車場景',
                     '獨立開發 QRCode 叫車流程，導入 狀態機 建模並達成 100% 核心流程 E2E 覆蓋',
                     '建立據點叫車自動化測試，並完成 CMS 200+ 冒煙測項，提升回歸測試效率與系統穩定性',
-                ]
+                ],
+                links: []
             },
             {
                 title: 'AIO / SEO 分析與檢核平台（0→1）',
@@ -440,6 +279,9 @@ export const TEMP_DATA_RESUME = {
                     '建立網站資料收集、評分建議與結果比較的標準化流程',
                     '透過 dashboard 呈現與比較查詢結果，形成可持續運作的分析機制 ',
                     '作為 集團與子公司共用 的 AIO / SEO 檢核基礎',
+                ],
+                links: [
+                    { label: '作品集連結', value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: TEMP_DATA_SEO_AIO.id })}` }
                 ]
             }
         ]

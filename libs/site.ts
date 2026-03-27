@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Lang } from "@/types/common";
 
 export const SITE_NAME = "yoga.dev";
-export const SITE_URL = "https://yoga.dev";
+export const SITE_URL = "https://yoga-portfolio-sigma.vercel.app/";
 export const DEFAULT_CONTENT_LANG = Lang.Zh_Hant_TW;
 export const SITE_DESCRIPTION =
   "前端工程師作品集，整理 React、Next.js、TypeScript 與產品型前端專案。";

@@ -8,9 +8,10 @@ import { Route } from "@/helpers/route";
 import { LINKS } from "@/constants/common";
 import { getProjectList, getResumeOverview } from "@/libs/content";
 import { IBasePageProps } from "@/types/common";
+import classNames from "classnames";
 
 export const metadata: Metadata = {
-  title: "首頁 | yoga.dev",
+  title: "首頁",
   description: "前端工程師作品集，聚焦 React、Next.js、SEO 與產品導向的介面實作。",
 };
 
@@ -24,18 +25,25 @@ const Page = async ({ params }: IBasePageProps) => {
     notFound();
   }
 
-  const { intro } = overview;
+  const { intro, keywords } = overview;
   const caseStudyCount = projects.filter(({ id }) => id !== "ai-prompt-workspace").length;
 
   return (
     <section className="grid items-stretch gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
       <div className="flex flex-col gap-6 rounded-4xl border border-border-T10 bg-surface-T50/80 p-6 shadow-(--shadow-panel) backdrop-blur md:p-8">
         <div className="flex flex-wrap gap-2 text-[12px] uppercase tracking-[0.16em] text-primary-T20">
-          <span className="rounded-full border border-primary-T10/20 bg-primary-T30 px-3 py-1">前端工程師</span>
-          <span className="rounded-full border border-border-T10 bg-surface-T50 px-3 py-1">React / Next.js</span>
-          <span className="rounded-full border border-border-T10 bg-surface-T50 px-3 py-1">效能優化</span>
-          <span className="rounded-full border border-border-T10 bg-surface-T50 px-3 py-1">自動化測試</span>
-
+          {
+            keywords.map((keyword, index) => (
+              <span
+                className={
+                  classNames("rounded-full border border-primary-T10/20 px-3 py-1",
+                    index === 0 ? 'border-primary-T10/20 bg-primary-T30' : 'border-border-T10 bg-surface-T50')}
+                key={keyword}
+                >
+                {keyword}
+              </span>)
+            )
+          }
         </div>
 
         <div className="max-w-3xl text-text-T20 leading-relaxed">
@@ -96,7 +104,7 @@ const Page = async ({ params }: IBasePageProps) => {
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-5 md:p-6">
             <p className="text-[12px] uppercase tracking-[0.18em] text-primary-T20">yoga.dev</p>
             <p className="max-w-sm text-lg font-semibold leading-tight text-white md:text-2xl">
-              React、Next.js、SEO 與產品導向前端實作。
+              React、Next.js、SEO、效能優化與自動化測試。
             </p>
           </div>
         </div>

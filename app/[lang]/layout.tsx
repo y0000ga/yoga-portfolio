@@ -5,7 +5,6 @@ import { PropsWithChildren } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { CommandLineIcon } from "@heroicons/react/24/outline";
-import BackToTop from "@/components/UI/BackToTop";
 import { LINKS } from "@/constants/common";
 import { Route } from "@/helpers/route";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@/libs/site";
 import "@/styles/globals.css";
 import { IBasePageProps } from "@/types/common";
+import { BackToTop } from "@/components/UI/Scroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,7 +89,7 @@ const RootLayout = async ({ children, params }: Props) => {
       className={classNames(
         geistMono.variable,
         geistSans.variable,
-        "h-full antialiased border border-red-500"
+        "h-full antialiased"
       )}
     >
       <body className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-8 px-4 md:gap-10 md:px-8">

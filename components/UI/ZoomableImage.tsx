@@ -138,38 +138,24 @@ export default function ZoomableImage({
                 {({ resetTransform, zoomIn, zoomOut }) => (
                   <>
                     <div className="pointer-events-none absolute right-4 top-4 z-30 flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() => zoomIn()}
-                        className="pointer-events-auto rounded-full bg-black/60 px-3 py-2 text-sm text-white transition hover:bg-black/80"
-                        aria-label="放大圖片"
-                      >
-                        放大
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => zoomOut()}
-                        className="pointer-events-auto rounded-full bg-black/60 px-3 py-2 text-sm text-white transition hover:bg-black/80"
-                        aria-label="縮小圖片"
-                      >
-                        縮小
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => resetTransform()}
-                        className="pointer-events-auto rounded-full bg-black/60 px-3 py-2 text-sm text-white transition hover:bg-black/80"
-                        aria-label="重設縮放位置"
-                      >
-                        重設
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIsOpen(false)}
-                        className="pointer-events-auto rounded-full bg-black/60 px-3 py-2 text-sm text-white transition hover:bg-black/80"
-                        aria-label="關閉圖片預覽"
-                      >
-                        關閉
-                      </button>
+                      {
+                        [
+                          { onClick: () => zoomIn(), label: '放大', ariaLabel: '放大圖片' },
+                          { onClick: () => zoomOut(), label: '縮小', ariaLabel: '縮小圖片'  },
+                          { onClick: () => resetTransform(), label: '重設', ariaLabel: '重設縮放位置'  },
+                          { onClick: () => setIsOpen(false), label: '關閉', ariaLabel: '關閉圖片預覽'  },
+                        ].map(({ onClick, label,ariaLabel }) =>
+                          <button
+                            key={label}
+                            type="button"
+                            onClick={onClick}
+                            className="pointer-events-auto rounded-full bg-black/60 px-3 py-2 text-sm text-white transition hover:bg-black/80"
+                            aria-label={ariaLabel}
+                          >
+                            {label}
+                          </button>
+                        )
+                      }
                     </div>
 
                     <div className="flex h-full w-full items-center justify-center overflow-hidden p-4 md:p-8">
