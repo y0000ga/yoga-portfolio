@@ -1,8 +1,3 @@
-interface IDecision {
-    question: string,
-    answer: string
-}
-
 interface IArchitecture {
     images: IMedia[],
 }
@@ -47,7 +42,6 @@ export type IProject = ICaseStudy | ISideProject
 export type IProjectIntro = Pick<IProject, 'id' | 'title' | 'intro'>
 
 export enum ProjectParagraph {
-    Overview = 'Overview',
     Demo = 'Demo',
     Problem = 'Problem',
     Solution = 'Solution',

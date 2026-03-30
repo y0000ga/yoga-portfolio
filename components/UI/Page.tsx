@@ -1,7 +1,9 @@
 import { PropsWithChildren } from "react"
 import { AsideNav } from "./Scroll"
 
-export const AsidePage = ({ children, navs }: PropsWithChildren<{ navs: Array<{ id: string, title: string }> }>) => {
+interface IProps { navs: Array<{ id: string, title: string }> }
+
+export const AsidePage = ({ children, navs }: PropsWithChildren<IProps>) => {
     return <>
         <section className="flex-1 flex flex-col items-center gap-6 md:gap-10 min-w-0">
             {children}

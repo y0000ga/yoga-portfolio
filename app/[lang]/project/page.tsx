@@ -4,15 +4,11 @@ import { Route } from "@/helpers/route";
 import { getProjectById, getProjectList } from "@/libs/content";
 import { IBasePageProps } from "@/types/common";
 import { Project } from "@/types/project";
+import { PROJECT_TYPE_LABEL } from "@/constants/project";
 
 export const metadata: Metadata = {
   title: "作品集",
   description: "收錄前端案例研究與 side project，涵蓋 SEO、狀態設計、UI 系統與工作流程工具。",
-};
-
-const PROJECT_TYPE_LABEL = {
-  [Project.CaseStudy]: "案例研究",
-  [Project.SideProject]: "Side Project",
 };
 
 const COLUMN_PATTERNS = [
@@ -44,18 +40,17 @@ const Page = async ({ params }: IBasePageProps) => {
           <h1 className="text-[36px] leading-none text-text-T10 md:text-[64px]">作品集</h1>
 
           <div className="grid gap-3 sm:grid-cols-3 lg:min-w-104">
-            <div className="rounded-3xl border border-border-T10 bg-surface-T40/60 p-4">
-              <p className="text-[12px] uppercase tracking-[0.14em] text-text-T30">總數</p>
-              <p className="mt-2 text-3xl font-semibold text-primary-T10">{projectDetails.length}</p>
-            </div>
-            <div className="rounded-3xl border border-border-T10 bg-surface-T40/60 p-4">
-              <p className="text-[12px] uppercase tracking-[0.14em] text-text-T30">案例研究</p>
-              <p className="mt-2 text-3xl font-semibold text-primary-T10">{caseStudyCount}</p>
-            </div>
-            <div className="rounded-3xl border border-border-T10 bg-surface-T40/60 p-4">
-              <p className="text-[12px] uppercase tracking-[0.14em] text-text-T30">Side Project</p>
-              <p className="mt-2 text-3xl font-semibold text-primary-T10">{sideProjectCount}</p>
-            </div>
+            {
+              [
+                { label: '總數', value: projectDetails.length },
+                { label: PROJECT_TYPE_LABEL[Project.CaseStudy], value: caseStudyCount },
+                { label: PROJECT_TYPE_LABEL[Project.SideProject], value: sideProjectCount },
+              ].map(({ value, label }) => (
+                <div className="rounded-3xl border border-border-T10 bg-surface-T40/60 p-4" key={label}>
+                  <p className="text-[12px] uppercase tracking-[0.14em] text-text-T30">{label}</p>
+                  <p className="mt-2 text-3xl font-semibold text-primary-T10">{value}</p>
+                </div>))
+            }
           </div>
         </div>
       </header>

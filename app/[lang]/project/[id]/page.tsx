@@ -5,10 +5,10 @@ import { GithubIcon } from "@/components/UI/Icon";
 import { AsidePage } from "@/components/UI/Page";
 import Paragraph from "@/components/UI/Paragraph";
 import ZoomableImage from "@/components/UI/ZoomableImage";
-import { PROJECT_TYPE_NAME } from "@/constants/common";
-import { PROJECT_PARAGRAPH } from "@/constants/project";
+import { PROJECT_PARAGRAPH, PROJECT_TYPE_LABEL } from "@/constants/project";
 import { getProjectById } from "@/libs/content";
 import { Project, ProjectParagraph } from "@/types/project";
+import { createPageMetadata } from "@/libs/site";
 
 interface IProjectPageProps {
   params: Promise<{
@@ -16,6 +16,13 @@ interface IProjectPageProps {
     lang: string
   }>
 }
+
+const PARAGRAPHS = [
+  ProjectParagraph.Demo,
+  ProjectParagraph.Problem,
+  ProjectParagraph.Solution,
+  ProjectParagraph.Impact,
+].map((id) => ({ id, title: PROJECT_PARAGRAPH[id] }));
 
 export const generateMetadata = async ({ params }: IProjectPageProps): Promise<Metadata> => {
   const { id } = await params;
@@ -27,10 +34,10 @@ export const generateMetadata = async ({ params }: IProjectPageProps): Promise<M
     };
   }
 
-  return {
+  return createPageMetadata({
     title: project.title,
-    description: project.intro,
-  };
+    description: project.intro
+  })
 };
 
 const Page = async ({ params }: IProjectPageProps) => {
@@ -43,14 +50,6 @@ const Page = async ({ params }: IProjectPageProps) => {
 
   const { type, title, problems, impacts, architecture, intro, solution } = project;
 
-  const PARAGRAPHS = [
-    ...(type === Project.CaseStudy ? [ProjectParagraph.Overview] : []),
-    ProjectParagraph.Demo,
-    ProjectParagraph.Problem,
-    ProjectParagraph.Solution,
-    ProjectParagraph.Impact,
-  ].map((id) => ({ id, title: PROJECT_PARAGRAPH[id] }));
-
   const getShowcaseClassName = () =>
     "mx-auto w-full md:w-1/2";
 
@@ -60,7 +59,7 @@ const Page = async ({ params }: IProjectPageProps) => {
         <div className="flex flex-col gap-5">
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full border border-primary-T10/25 bg-primary-T30 px-3 py-1 text-[12px] uppercase tracking-[0.16em] text-primary-T20">
-              {PROJECT_TYPE_NAME[type]}
+              {PROJECT_TYPE_LABEL[type]}
             </span>
             {type === Project.SideProject && <IconInfo icon={GithubIcon} url={project.repoURL} />}
           </div>
@@ -72,7 +71,6 @@ const Page = async ({ params }: IProjectPageProps) => {
 
           {type === Project.CaseStudy && (
             <div
-              id={ProjectParagraph.Overview}
               className="grid gap-3 rounded-[28px] border border-border-T10 bg-surface-T40/60 p-4 md:grid-cols-3 md:p-5"
             >
               {[
