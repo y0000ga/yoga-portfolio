@@ -14,6 +14,7 @@ import { LINKS } from "@/constants/common";
 import { RESUME_PARAGRAPH } from "@/constants/resume";
 import { getResumeDetail } from "@/libs/content";
 import { ResumeParagraph } from "@/types/resume";
+import { createPageMetadata } from "@/libs/site";
 
 const PARAGRAPHS = [
   ResumeParagraph.Experince,
@@ -22,9 +23,12 @@ const PARAGRAPHS = [
   ResumeParagraph.Education,
 ].map((id) => ({ id, title: RESUME_PARAGRAPH[id] }));
 
-export const metadata: Metadata = {
+export const generateMetadata = async (): Promise<Metadata> => {
+
+  return createPageMetadata({
   title: "履歷",
   description: "前端工程師履歷，整理工作經歷、成果、技能與學歷。",
+  })
 };
 
 const Page = async () => {

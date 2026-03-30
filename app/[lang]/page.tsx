@@ -9,6 +9,7 @@ import { LINKS } from "@/constants/common";
 import { getProjectList, getResumeOverview } from "@/libs/content";
 import { IBasePageProps } from "@/types/common";
 import classNames from "classnames";
+import { SITE_NAME } from "@/libs/site";
 
 export const metadata: Metadata = {
   title: "首頁 | yoga.dev",
@@ -102,7 +103,7 @@ const Page = async ({ params }: IBasePageProps) => {
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/72 via-black/12 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-5 md:p-6">
-            <p className="text-[12px] uppercase tracking-[0.18em] text-primary-T20">yoga.dev</p>
+            <p className="text-[12px] uppercase tracking-[0.18em] text-primary-T20">{SITE_NAME}</p>
             <p className="max-w-sm text-lg font-semibold leading-tight text-white md:text-2xl">
               React、Next.js、SEO、效能優化與自動化測試。
             </p>

@@ -5,11 +5,16 @@ import { getProjectById, getProjectList } from "@/libs/content";
 import { IBasePageProps } from "@/types/common";
 import { Project } from "@/types/project";
 import { PROJECT_TYPE_LABEL } from "@/constants/project";
+import { createPageMetadata } from "@/libs/site";
 
-export const metadata: Metadata = {
-  title: "作品集",
-  description: "收錄前端案例研究與 side project，涵蓋 SEO、狀態設計、UI 系統與工作流程工具。",
+export const generateMetadata = async (): Promise<Metadata> => {
+
+  return createPageMetadata({
+    title: "作品集",
+    description: "收錄前端案例研究與 side project，涵蓋 SEO、狀態設計、UI 系統與工作流程工具。",
+  })
 };
+
 
 const COLUMN_PATTERNS = [
   "lg:col-span-7 lg:row-span-2 min-h-[28rem]",

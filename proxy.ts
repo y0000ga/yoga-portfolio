@@ -30,7 +30,11 @@ const getLocalizedPathname = (pathname: string) => {
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  if (pathname.startsWith("/_next")) {
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.endsWith("/opengraph-image") ||
+    pathname.endsWith("/twitter-image")
+  ) {
     return NextResponse.next();
   }
 
