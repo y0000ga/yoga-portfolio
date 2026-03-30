@@ -276,7 +276,7 @@ export const TEMP_DATA_RESUME: IResume = {
             {
                 title: 'AIO / SEO 分析與檢核平台（0→1）',
                 intro: '從 0 到 1 規劃 AIO / SEO 分析與檢核平台，整合 OpenAPI、JSON-LD、robots.txt、sitemap.xml 等網站資料，建立 AI 評估、建議與比較流程。 ',
-                techStack: ['Next.js', 'SSR', 'SEO', 'WebSocket'],
+                techStack: ['Next.js', '爬蟲', 'SEO'],
                 results: [
                     '建立網站資料收集、評分建議與結果比較的標準化流程',
                     '透過 dashboard 呈現與比較查詢結果，形成可持續運作的分析機制 ',
