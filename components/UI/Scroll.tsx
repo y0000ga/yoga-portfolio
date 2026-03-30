@@ -128,8 +128,8 @@ export const BackToTop = () => {
                     履歷下載
                 </span>
                 <a
-                    href="/resume_yu-jia-huang.pdf"
-                    download="履歷(黃于家)pdf"
+                    href="/履歷_黃于家.pdf"
+                    download="履歷_黃于家.pdf"
                     aria-label="履歷下載"
                     className={actionButtonClassName}
                 >
