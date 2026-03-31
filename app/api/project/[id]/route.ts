@@ -2,6 +2,9 @@ import { createApiRes } from "@/helpers/api"
 import { getProjectById } from "@/libs/content"
 import { IProject } from "@/types/project"
 
+export const dynamic = "force-static"
+export const revalidate = 3600
+
 interface IParams {
     id: string
 }
