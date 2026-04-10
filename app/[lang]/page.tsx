@@ -11,6 +11,7 @@ import { getProjectList, getResumeOverview } from "@/libs/content";
 import { getDictionary, hasLocale } from "@/libs/i18n";
 import { createPageMetadata, SITE_NAME } from "@/libs/site";
 import { IBasePageProps } from "@/types/common";
+import { Project } from "@/types/project";
 
 export const generateMetadata = async ({
   params,
@@ -47,7 +48,7 @@ const Page = async ({ params }: IBasePageProps) => {
 
   const { intro, keywords } = overview;
   const caseStudyCount = projects.filter(
-    ({ id }) => id !== "ai-prompt-workspace",
+    ({ type }) => type === Project.CaseStudy,
   ).length;
 
   return (
@@ -106,7 +107,7 @@ const Page = async ({ params }: IBasePageProps) => {
               {dict.home.stats.projects}
             </p>
             <p className="text-primary-T10 mt-2 text-3xl font-semibold">
-              {projects.length}
+              {projects.length - caseStudyCount}
             </p>
           </div>
           <div className="border-border-T10 bg-surface-T50 rounded-2xl border p-4">

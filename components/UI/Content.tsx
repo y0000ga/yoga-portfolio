@@ -71,6 +71,8 @@ export const IconInfo = ({
     return (
       <a
         href={url}
+        target="_blank"
+        rel="noopener noreferrer"
         className="border-border-T10 bg-surface-T50 text-primary-T10 hover:border-primary-T10/60 hover:bg-primary-T30 flex h-11 w-11 items-center justify-center rounded-full border shadow-[var(--shadow-panel)] transition-all hover:-translate-y-0.5"
       >
         <Icon className={ICON_CLASSNAME} />

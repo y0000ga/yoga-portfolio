@@ -1,6 +1,8 @@
 import { cache } from "react";
 import {
   TEMP_DATA_CHROME_EXTENSION,
+  TEMP_DATA_MEDICATION_BACKEND,
+  TEMP_DATA_MEDICATION_FRONTEND,
   TEMP_DATA_RESUME,
   TEMP_DATA_SEO_AIO,
   TEMP_DATA_STATE_MACHINE,
@@ -10,6 +12,8 @@ import { IProject } from "@/types/project";
 import { IResume } from "@/types/resume";
 
 const PROJECT_RECORDS: IProject[] = [
+  TEMP_DATA_MEDICATION_BACKEND,
+  TEMP_DATA_MEDICATION_FRONTEND,
   TEMP_DATA_YOXI_REFACTOR,
   TEMP_DATA_SEO_AIO,
   TEMP_DATA_STATE_MACHINE,

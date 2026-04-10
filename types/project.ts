@@ -1,5 +1,15 @@
+interface IArchitectureDiagram {
+  title?: string;
+  caption: string;
+  explanation?: string[];
+  sources: {
+    mermaid?: string;
+    image?: string;
+  };
+}
+
 interface IArchitecture {
-  images: IMedia[];
+  diagrams: IArchitectureDiagram[];
 }
 
 interface IBaseProject {
@@ -11,6 +21,8 @@ interface IBaseProject {
   intro: string;
   id: string;
   demos: Array<IMedia>;
+  techStack: string[];
+  relatedProjects: { name: string; id: string }[];
 }
 
 interface IMedia {
@@ -39,11 +51,12 @@ export interface ISideProject extends IBaseProject {
 
 export type IProject = ICaseStudy | ISideProject;
 
-export type IProjectIntro = Pick<IProject, "id" | "title" | "intro">;
+export type IProjectIntro = Pick<IProject, "id" | "title" | "intro" | 'type'>;
 
 export enum ProjectParagraph {
   Demo = "Demo",
   Problem = "Problem",
   Solution = "Solution",
   Impact = "Impact",
+  RelativeProject = "RelativeProject",
 }

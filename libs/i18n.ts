@@ -66,6 +66,7 @@ type Dictionary = {
       problem: string;
       solution: string;
       impact: string;
+      relativeProject: string
     };
     type: {
       caseStudy: string;
@@ -154,6 +155,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
         problem: "Problem",
         solution: "Solution",
         impact: "Impact",
+        relativeProject: "Relative Project"
       },
       type: {
         caseStudy: "Case Study",
@@ -214,7 +216,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
         cardAction: "閱讀案例",
       },
       stats: {
-        projects: "作品數量",
+        projects: "個人專案",
         caseStudies: "案例研究",
         contact: "聯絡方式",
       },
@@ -241,6 +243,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
         problem: "問題與挑戰",
         solution: "解法與設計",
         impact: "成果",
+        relativeProject: "相關作品"
       },
       type: {
         caseStudy: "案例研究",

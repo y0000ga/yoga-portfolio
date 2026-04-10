@@ -10,6 +10,7 @@ export const getProjectParagraphLabels = (lang: Lang) => {
     [ProjectParagraph.Problem]: dict.project.paragraph.problem,
     [ProjectParagraph.Solution]: dict.project.paragraph.solution,
     [ProjectParagraph.Impact]: dict.project.paragraph.impact,
+    [ProjectParagraph.RelativeProject]: dict.project.paragraph.relativeProject,
   };
 };
 
