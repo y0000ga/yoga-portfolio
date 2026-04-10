@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { Lang } from "@/types/common";
 
-const DEFAULT_LANG = "zh-Hant-TW";
-const LANG_SEGMENT_PATTERN = /^[a-z]{2}(?:-[A-Za-z0-9]{2,8})*$/;
+const DEFAULT_LANG = Lang.Zh_Hant_TW;
+const SUPPORTED_LANGS = new Set<string>([Lang.En, Lang.Zh_Hant_TW]);
+const LOCALE_SEGMENT_PATTERN = /^[a-z]{2}(?:-[A-Za-z0-9]{2,8})*$/;
 
 const getLocalizedPathname = (pathname: string) => {
   if (pathname === "/") {
@@ -12,13 +14,14 @@ const getLocalizedPathname = (pathname: string) => {
   const segments = pathname.split("/").filter(Boolean);
   const [firstSegment, ...restSegments] = segments;
 
-  if (firstSegment === DEFAULT_LANG) {
+  if (firstSegment && SUPPORTED_LANGS.has(firstSegment)) {
     return null;
   }
 
-  const normalizedSegments = LANG_SEGMENT_PATTERN.test(firstSegment)
-    ? restSegments
-    : segments;
+  const normalizedSegments =
+    firstSegment && LOCALE_SEGMENT_PATTERN.test(firstSegment)
+      ? restSegments
+      : segments;
 
   const normalizedPath = normalizedSegments.length
     ? `/${normalizedSegments.join("/")}`
@@ -44,7 +47,10 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const redirectUrl = new URL(`${localizedPathname}${search}`, request.url);
+  const redirectUrl = new URL(
+    `${localizedPathname}${search}`,
+    request.url,
+  );
   return NextResponse.redirect(redirectUrl);
 }
 

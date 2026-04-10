@@ -2,33 +2,21 @@ import type { Metadata } from "next";
 import { Lang } from "@/types/common";
 
 export const SITE_NAME = "yoga.dev";
-export const SITE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
-export const DEFAULT_CONTENT_LANG = Lang.Zh_Hant_TW;
-export const SITE_DESCRIPTION =
-  "前端工程師作品集，整理 React、Next.js、TypeScript 與產品型前端專案。";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+export const DEFAULT_LANG = Lang.Zh_Hant_TW;
 
-export const SITE_NAV_ITEMS = [
-  {
-    key: "project",
-    label: "作品集",
-  },
-  {
-    key: "resume",
-    label: "履歷",
-  },
-] as const;
-
-export const resolveContentLang = (lang: string): Lang =>
-  lang === Lang.En ? DEFAULT_CONTENT_LANG : (lang as Lang);
-
-export const toCanonicalPath = (path = "") => {
+export const toCanonicalPath = (lang: Lang, path = "") => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const localizedRoot = `/${lang}`;
+
   return normalizedPath === "/"
-    ? `/${DEFAULT_CONTENT_LANG}`
-    : `/${DEFAULT_CONTENT_LANG}${normalizedPath}`;
+    ? localizedRoot
+    : `${localizedRoot}${normalizedPath}`;
 };
 
 type PageMetadataOptions = {
+  lang: Lang;
   title?: string;
   description: string;
   path?: string;
@@ -36,26 +24,31 @@ type PageMetadataOptions = {
 };
 
 export const createPageMetadata = ({
+  lang,
   title,
   description,
   path = "/",
   imageAlt,
 }: PageMetadataOptions): Metadata => {
-  const canonical = toCanonicalPath(path);
+  const canonical = toCanonicalPath(lang, path);
   const resolvedTitle = title ?? SITE_NAME;
   const resolvedImageAlt = imageAlt ?? description;
-  const ogImagePath = `/${DEFAULT_CONTENT_LANG}/opengraph-image`;
-  const twitterImagePath = `/${DEFAULT_CONTENT_LANG}/twitter-image`;
+  const ogImagePath = `/${lang}/opengraph-image`;
+  const twitterImagePath = `/${lang}/twitter-image`;
 
   return {
     ...(title ? { title } : {}),
     description,
     alternates: {
       canonical,
+      languages: {
+        [Lang.En]: toCanonicalPath(Lang.En, path),
+        [Lang.Zh_Hant_TW]: toCanonicalPath(Lang.Zh_Hant_TW, path),
+      },
     },
     openGraph: {
       type: "website",
-      locale: "zh_TW",
+      locale: lang === Lang.En ? "en_US" : "zh_TW",
       siteName: SITE_NAME,
       title: resolvedTitle,
       description,

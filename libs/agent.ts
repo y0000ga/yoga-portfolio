@@ -16,17 +16,20 @@ const getApiBaseUrl = () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_BASE_URL is required on the server");
+    throw new Error(
+      "NEXT_PUBLIC_API_BASE_URL is required on the server",
+    );
   }
 
   return baseUrl;
 };
 
-const createApiUrl = (path: string) => `${getApiBaseUrl()}${API_PREFIX}${path}`;
+const createApiUrl = (path: string) =>
+  `${getApiBaseUrl()}${API_PREFIX}${path}`;
 
 const fetchApi = async <T>(
   path: string,
-  init?: TFetchApiInit
+  init?: TFetchApiInit,
 ): Promise<TApiResponse<T>> => {
   const response = await fetch(createApiUrl(path), {
     ...init,
@@ -42,7 +45,7 @@ const fetchApi = async <T>(
     throw new Error(
       result.success
         ? `Request failed with status ${response.status}`
-        : result.error?.message ?? "Request failed"
+        : (result.error?.message ?? "Request failed"),
     );
   }
 

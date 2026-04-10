@@ -1,4 +1,8 @@
-import { createOgImage, ogContentType, ogSize } from "@/libs/og-image";
+import {
+  createOgImage,
+  ogContentType,
+  ogSize,
+} from "@/libs/og-image";
 
 export const size = ogSize;
 export const contentType = ogContentType;

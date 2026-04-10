@@ -4,26 +4,28 @@
 
 :root {
   /* Brand Colors */
-  --color-primary-T10: #00E5FF; /* Cyan / Neon Blue */
-  --color-primary-T20: #81ECFF; /* Light Cyan */
+  --color-primary-T10: #00e5ff; /* Cyan / Neon Blue */
+  --color-primary-T20: #81ecff; /* Light Cyan */
   --color-primary-T30: hsl(188 100% 62% / 0.16);
-  
+
   /* Neutral / Surface Colors */
-  --color-surface-T10: #0E0E0E; /* Deep Black (Background) */
+  --color-surface-T10: #0e0e0e; /* Deep Black (Background) */
   --color-surface-T20: #131313; /* Dark Gray (Surface) */
-  --color-surface-T30: #1A1A1A; /* Gray (Container) */
+  --color-surface-T30: #1a1a1a; /* Gray (Container) */
   --color-surface-T40: #262626; /* Light Gray (Hover/Active) */
   --color-surface-T50: hsl(0 0% 100% / 0.04);
-  
+
   /* Text Colors */
-  --color-text-T10: #FFFFFF;    /* Pure White */
+  --color-text-T10: #ffffff; /* Pure White */
   --color-text-T20: hsl(0 0% 100% / 0.7); /* White with 70% opacity */
-  --color-text-T30:  hsl(0 0% 100% / 0.4); /* White with 40% opacity */
-  
+  --color-text-T30: hsl(0 0% 100% / 0.4); /* White with 40% opacity */
+
   /* Accents & Others */
   --color-border-T10: hsl(0 0% 100% / 0.08);
   --shadow-panel: 0 24px 80px hsl(0 0% 0% / 0.28);
-  --shadow-glow: 0 0 0 1px hsl(188 100% 62% / 0.18), 0 18px 60px hsl(188 100% 62% / 0.08);
+  --shadow-glow:
+    0 0 0 1px hsl(188 100% 62% / 0.18),
+    0 18px 60px hsl(188 100% 62% / 0.08);
 }
 
 @theme inline {
@@ -46,26 +48,25 @@
   --color-border-T10: var(--color-border-T10);
 }
 
-
 @media (prefers-color-scheme: dark) {
   :root {
-  /* Brand Colors */
-  --color-primary-T10: #00E5FF; /* Cyan / Neon Blue */
-  --color-primary-T20: #81ECFF; /* Light Cyan */
-  
-  /* Neutral / Surface Colors */
-  --color-surface-T10: #0E0E0E; /* Deep Black (Background) */
-  --color-surface-T20: #131313; /* Dark Gray (Surface) */
-  --color-surface-T30: #1A1A1A; /* Gray (Container) */
-  --color-surface-T40: #262626; /* Light Gray (Hover/Active) */
-  
-  /* Text Colors */
-  --color-text-T10: #FFFFFF;    /* Pure White */
-  --color-text-T20: #FFFFFF/70; /* White with 70% opacity */
-  --color-text-T30: #FFFFFF/40; /* White with 40% opacity */
-  
-  /* Accents & Others */
-  --color-border-T10: #FFFFFF/5; /* Subtle Border */
+    /* Brand Colors */
+    --color-primary-T10: #00e5ff; /* Cyan / Neon Blue */
+    --color-primary-T20: #81ecff; /* Light Cyan */
+
+    /* Neutral / Surface Colors */
+    --color-surface-T10: #0e0e0e; /* Deep Black (Background) */
+    --color-surface-T20: #131313; /* Dark Gray (Surface) */
+    --color-surface-T30: #1a1a1a; /* Gray (Container) */
+    --color-surface-T40: #262626; /* Light Gray (Hover/Active) */
+
+    /* Text Colors */
+    --color-text-T10: #ffffff; /* Pure White */
+    --color-text-T20: #FFFFFF/70; /* White with 70% opacity */
+    --color-text-T30: #FFFFFF/40; /* White with 40% opacity */
+
+    /* Accents & Others */
+    --color-border-T10: #FFFFFF/5; /* Subtle Border */
   }
 }
 
@@ -104,13 +105,21 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, hsl(200 18% 12% / 0.18) 0%, transparent 32%),
-    radial-gradient(circle at 50% 0%, hsl(188 100% 62% / 0.035), transparent 48%);
+    linear-gradient(
+      180deg,
+      hsl(200 18% 12% / 0.18) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 50% 0%,
+      hsl(188 100% 62% / 0.035),
+      transparent 48%
+    );
   z-index: -2;
 }
 
 p {
-  @apply leading-relaxed text-base;
+  @apply text-base leading-relaxed;
 }
 
 h1 {

@@ -16,13 +16,15 @@ const PROJECT_RECORDS: IProject[] = [
   TEMP_DATA_CHROME_EXTENSION,
 ];
 
-export const getResumeRecord = cache(async (): Promise<IResume> => TEMP_DATA_RESUME);
+export const getResumeRecord = cache(
+  async (): Promise<IResume> => TEMP_DATA_RESUME,
+);
 
 export const getProjectRecords = cache(
-  async (): Promise<IProject[]> => PROJECT_RECORDS
+  async (): Promise<IProject[]> => PROJECT_RECORDS,
 );
 
 export const getProjectRecordById = cache(
   async (id: string): Promise<IProject | null> =>
-    PROJECT_RECORDS.find((project) => project.id === id) ?? null
+    PROJECT_RECORDS.find((project) => project.id === id) ?? null,
 );

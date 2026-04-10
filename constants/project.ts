@@ -1,13 +1,23 @@
+import { getDictionarySync } from "@/libs/i18n";
+import { Lang } from "@/types/common";
 import { Project, ProjectParagraph } from "@/types/project";
 
-export const PROJECT_PARAGRAPH = {
-  [ProjectParagraph.Demo]: 'Demo 畫面',
-  [ProjectParagraph.Problem]: '問題背景',
-  [ProjectParagraph.Solution]: '解法設計',
-  [ProjectParagraph.Impact]: '成效',
-}
+export const getProjectParagraphLabels = (lang: Lang) => {
+  const dict = getDictionarySync(lang);
 
-export const PROJECT_TYPE_LABEL = {
-  [Project.CaseStudy]: '案例研究',
-  [Project.SideProject]: '個人專案'
-}
+  return {
+    [ProjectParagraph.Demo]: dict.project.paragraph.demo,
+    [ProjectParagraph.Problem]: dict.project.paragraph.problem,
+    [ProjectParagraph.Solution]: dict.project.paragraph.solution,
+    [ProjectParagraph.Impact]: dict.project.paragraph.impact,
+  };
+};
+
+export const getProjectTypeLabels = (lang: Lang) => {
+  const dict = getDictionarySync(lang);
+
+  return {
+    [Project.CaseStudy]: dict.project.type.caseStudy,
+    [Project.SideProject]: dict.project.type.sideProject,
+  };
+};
