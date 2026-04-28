@@ -51,60 +51,99 @@ export const TEMP_DATA_MEDICATION_FRONTEND: ISideProject = {
   ],
 
   demos: [
-    // {
-    //   mediaURL: "/medicheck-home.png",
-    //   content: "首頁顯示當日與近期服藥提醒",
-    // },
-    // {
-    //   mediaURL: "/medicheck-medication-list.png",
-    //   content: "藥品列表（支援搜尋、篩選與分頁）",
-    // },
-    // {
-    //   mediaURL: "/medicheck-schedule-flow.png",
-    //   content: "提醒排程 step flow",
-    // },
+    {
+      mediaURL: "/medi-check-frontend/schedule.png",
+      content: "排程總覽",
+    },
+    {
+      mediaURL: "/medi-check-frontend/schedule-event.png",
+      content: "單一排程事件",
+    },
+    { mediaURL: "/medi-check-frontend/login.png", content: "登入頁" },
+    {
+      mediaURL: "/medi-check-frontend/patients.png",
+      content: "病患列表",
+    },
+    {
+      mediaURL: "/medi-check-frontend/medication.png",
+      content: "用藥管理",
+    },
+    {
+      mediaURL: "/medi-check-frontend/history.png",
+      content: "歷史紀錄",
+    },
+    {
+      mediaURL: "/medi-check-frontend/add-schedule-1.png",
+      content: "新增排程步驟 1",
+    },
+    {
+      mediaURL: "/medi-check-frontend/add-schedule-2.png",
+      content: "新增排程步驟 2",
+    },
+    {
+      mediaURL: "/medi-check-frontend/add-schedule-3.png",
+      content: "新增排程步驟 3",
+    },
+    {
+      mediaURL: "/medi-check-frontend/add-schedule-4.png",
+      content: "新增排程步驟 4",
+    },
   ],
 
   architecture: {
     diagrams: [
       {
-        title: "Frontend Architecture",
+        title: "MediCheck Frontend Architecture",
         caption: "以 Router + State + API 分層設計前端架構",
         explanation: [
-          "Expo Router 負責頁面與路由結構，區分 public / protected flow。",
-          "Zustand 管理 user、viewer 與 domain state，避免跨頁面狀態混亂。",
-          "API client 統一 request 與型別處理，確保與 backend 契約一致。",
+          "app/ 專注路由與頁面組裝",
+          "features/ 集中業務規則，方便各 domain 獨立演進",
+          "shared/ 集中 store、API、token、env，避免重複",
+          "mapper / domain model 分離，降低後端欄位變動對 UI 的影響",
+          "components/ 提升重用與一致性",
+          "這套結構和 Expo Router 的 file-based routing 很合拍，也比較適合團隊協作",
         ],
         sources: {
           mermaid: `
 flowchart TD
-    UI[UI Components] --> ROUTER[Expo Router]
-    ROUTER --> STORE[Zustand Store]
-    STORE --> API[API Client]
-    API --> BACKEND[FastAPI Backend]
+    A[App Entry app/_layout.tsx] --> B[Redux Provider shared/store]
+    A --> C[Expo Router public routes]
+    A --> D[Expo Router protected routes]
 
-    STORE --> VIEWER[Viewer State]
-    STORE --> DOMAIN[Medication / Schedule / History]
+    B --> E[user store features/user/userStore.ts]
+    B --> F[RTK Query API shared/api/appApi.ts]
+
+    F --> G[Feature APIs features modules API]
+    F --> H[Token Storage shared/storage/tokenStorage]
+    F --> I[Env Config shared/config/env.ts]
+
+    D --> J[Protected Layout app/protected/_layout.tsx]
+    J --> K[Auth bootstrap]
+    K --> H
+    K --> G
+    K --> E
+
+    D --> L[Tabs protected tabs]
+    D --> M[Settings pages]
+    D --> N[Entity detail/create/edit pages]
+
+    L --> O[Main]
+    L --> P[Medications]
+    L --> Q[Patients]
+    L --> R[Schedules]
+    L --> S[Histories]
+
+    G --> T[Domain logic]
+    T --> U[types, mappers, validators]
+    T --> V[UI components]
+    V --> W[components]
+
+    U --> X[Server DTO]
+    U --> Y[Frontend domain model]
 `,
         },
       },
-      {
-        title: "Step Flow (Medication / Schedule)",
-        caption: "多步驟流程將複雜輸入拆解為可控操作",
-        explanation: [
-          "先選擇 patient，再進行資源操作，確保上下文一致。",
-          "將複雜表單拆解為多步驟，降低單頁認知負擔。",
-          "每一步僅關注單一責任，提升錯誤控制與可維護性。",
-        ],
-        sources: {
-          mermaid: `
-flowchart LR
-    A[Select Patient] --> B[Select Medication]
-    B --> C[Configure Schedule]
-    C --> D[Submit]
-`,
-        },
-      },
+
       {
         title: "Frontend / Backend Responsibility Split",
         caption: "前端與 backend 責任分離，避免重複計算",
