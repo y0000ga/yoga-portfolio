@@ -25,11 +25,11 @@ interface IProjectPageProps {
 }
 
 const PARAGRAPH_ORDER = [
+  ProjectParagraph.RelativeProject,
   ProjectParagraph.Demo,
   ProjectParagraph.Problem,
   ProjectParagraph.Solution,
   ProjectParagraph.Impact,
-  ProjectParagraph.RelativeProject,
 ];
 
 export const generateMetadata = async ({
@@ -102,8 +102,6 @@ const Page = async ({ params }: IProjectPageProps) => {
     );
   });
 
-  const getShowcaseClassName = () => "mx-auto w-full md:w-1/2";
-
   return (
     <AsidePage navs={navs}>
       <section className="border-border-T10 bg-surface-T50/80 grid w-full gap-5 rounded-4xl border p-5 shadow-(--shadow-panel) backdrop-blur md:p-7">
@@ -113,7 +111,7 @@ const Page = async ({ params }: IProjectPageProps) => {
               {projectTypeLabels[type]}
             </span>
 
-            {type === Project.SideProject && (
+            {project.repoURL && (
               <IconInfo
                 icon={GithubIcon}
                 url={project.repoURL}
@@ -206,8 +204,8 @@ const Page = async ({ params }: IProjectPageProps) => {
               <div className="mx-auto w-full overflow-hidden rounded-3xl md:w-1/2">
                 <ZoomableImage
                   src={mediaURL}
-                  className={getShowcaseClassName()}
-                  imageClassName="aspect-[16/10] max-h-[32rem] bg-surface-T10 object-cover"
+                  className="mx-auto w-full md:w-1/2"
+                  imageClassName="aspect-[8/5] max-h-[16rem] bg-surface-T10 object-cover"
                   width={1200}
                   height={750}
                   alt={content}
@@ -258,7 +256,7 @@ const Page = async ({ params }: IProjectPageProps) => {
                     <ZoomableImage
                       src={sources.image}
                       className="w-full"
-                      imageClassName="aspect-[16/10] max-h-[32rem] rounded-[18px] bg-surface-T10 object-cover"
+                      imageClassName="max-h-[16rem] rounded-[18px] bg-surface-T10 object-cover"
                       width={1200}
                       height={750}
                       alt={caption}

@@ -37,6 +37,7 @@ export enum Project {
 
 export interface ICaseStudy extends IBaseProject {
   type: Project.CaseStudy;
+  repoURL?:string,
   context: {
     scale: string;
     team: string;
