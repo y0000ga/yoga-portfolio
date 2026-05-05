@@ -5,6 +5,7 @@ interface IArchitectureDiagram {
   sources: {
     mermaid?: string;
     image?: string;
+    video?: string;
   };
 }
 

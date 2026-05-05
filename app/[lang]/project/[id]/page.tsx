@@ -6,6 +6,7 @@ import { GithubIcon } from "@/components/UI/Icon";
 import { AsidePage } from "@/components/UI/Page";
 import Paragraph from "@/components/UI/Paragraph";
 import ZoomableImage from "@/components/UI/ZoomableImage";
+import ZoomableVideo from "@/components/UI/ZoomableVideo";
 import {
   getProjectParagraphLabels,
   getProjectTypeLabels,
@@ -31,6 +32,9 @@ const PARAGRAPH_ORDER = [
   ProjectParagraph.Solution,
   ProjectParagraph.Impact,
 ];
+
+const isVideoMedia = (mediaURL: string) =>
+  /\.(mp4|webm|mov)$/i.test(mediaURL);
 
 export const generateMetadata = async ({
   params,
@@ -202,14 +206,25 @@ const Page = async ({ params }: IProjectPageProps) => {
               className="flex w-full flex-col gap-3"
             >
               <div className="mx-auto w-full overflow-hidden rounded-3xl md:w-1/2">
-                <ZoomableImage
-                  src={mediaURL}
-                  className="mx-auto w-full md:w-1/2"
-                  imageClassName="aspect-[8/5] max-h-[16rem] bg-surface-T10 object-cover"
-                  width={1200}
-                  height={750}
-                  alt={content}
-                />
+                {isVideoMedia(mediaURL) ? (
+                  <div className="border-border-T10 bg-surface-T50/80 overflow-hidden rounded-[24px] border p-2 md:p-3">
+                    <ZoomableVideo
+                      src={mediaURL}
+                      className="w-full"
+                      videoClassName="rounded-[18px]"
+                      title={content}
+                    />
+                  </div>
+                ) : (
+                  <ZoomableImage
+                    src={mediaURL}
+                    className="mx-auto w-full md:w-1/2"
+                    imageClassName="aspect-[8/5] max-h-[16rem] bg-surface-T10 object-cover"
+                    width={1200}
+                    height={750}
+                    alt={content}
+                  />
+                )}
               </div>
               <p className="text-text-T20 mx-auto w-full text-center">
                 {content}
