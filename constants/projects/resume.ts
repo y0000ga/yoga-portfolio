@@ -1,9 +1,11 @@
 import { Route } from "@/helpers/route";
-import { IResume } from "@/types/resume";
-import { Lang } from "@/types/common";
+import { AchievementType, IResume } from "@/types/resume";
 import YOXI_REFACTOR from "./yoxi-refactor";
 import STATE_MACHINE from "./state-machine";
 import SEO_AIO from "./seo-aio";
+import MEDICATION_FRONTEND from "./medication-frontend";
+import MEDICATION_BACKEND from "./medication-backend";
+import MEDICHECK_AI_ASSISTED_WORKFLOW from "./medication-ai-assisted";
 
 const RESUME: IResume = {
   keywords: ["前端", "REACT/NEXT.JS", "效能優化", "自動化測試"],
@@ -54,6 +56,79 @@ const RESUME: IResume = {
   achievement: {
     list: [
       {
+        type: AchievementType.Personal,
+        title: "MediCheck — 用藥排程與事件生成系統",
+        intro:
+          "設計並實作完整用藥排程系統（Frontend + Backend），以前端負責互動與狀態管理，後端負責排程規則解析與事件生成，透過 API contract 串接資料流，處理複雜時間規則與用藥事件同步問題。",
+        techStack: [],
+        techStackSeries: [
+          {
+            label: "前端",
+            value: ["React", "TypeScript", "State Management"],
+          },
+          {
+            label: "後端",
+            value: [
+              "Python",
+              "RESTful API",
+              "PostgreSQL",
+              "排程規則解析",
+            ],
+          },
+          {
+            label: "AI-assisted Workflow",
+            value: [
+              "Claude Code",
+              "Superpowers",
+              "skills",
+              "OpenAI Codex",
+              "Google Stitch",
+              "Figma",
+              "Figma MCP server",
+              "cross-AI review workflow",
+            ],
+          },
+        ],
+        results: [
+          '設計通用 "frequency 規則模型"（interval / unit / weekdays / endCondition），並由後端負責規則解析與事件展開',
+          '建立前後端資料契約，分離 "規則定義" 與 "事件計算"，降低耦合並提升可維運性',
+          "實作用藥事件展開邏輯，將抽象排程規則轉換為具體時間點，支援多種頻率與終止條件",
+          "完成部分前後端整合，已驗證排程規則解析與事件生成流程，並持續優化整體用藥流程串接",
+          "建立可於本地環境運行的系統，支援 API 串接與資料流驗證，確保核心排程邏輯正確性",
+          "規劃 background job 機制，定期掃描未完成用藥事件並轉換為歷史紀錄，建立事件生命週期管理",
+          '導入 "human-in-the-loop" 的 "AI-assisted development workflow"，使用 Claude Code + Superpowers skills 協助產品規格整理、需求缺口檢查、API contract 推導、implementation planning 與 edge case 補齊；使用 Google Stitch、Figma 與 Figma MCP server 建立 UI prototype、UX reference 與 design-to-code context bridge。',
+          '採用 "cross-AI review" 流程，由 OpenAI Codex 協助補齊重複性 CRUD 頁面、RESTful API、response 欄位與 boilerplate，再由 Claude Code 進行 schema consistency、API contract、state flow 與核心排程邏輯檢查，並由自己負責最終架構判斷、整合驗證與核心邏輯把關。',
+        ],
+        links: [
+          {
+            label: "Mobile 作品集連結",
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: MEDICATION_FRONTEND.id,
+            }),
+          },
+          {
+            label: "Backend 作品集連結",
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: MEDICATION_BACKEND.id,
+            }),
+          },
+          {
+            label: "AI-assisted 全端開發流程案例研究",
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: MEDICHECK_AI_ASSISTED_WORKFLOW.id,
+            }),
+          },
+          {
+            label: 'API Doc',
+            value: 'https://y0000ga.github.io/medi-check-backend/'
+          }
+        ],
+      },
+      {
+        type: AchievementType.Professional,
         title: "Yoxi 官方網站重構與核心功能開發",
         intro:
           "將官網由 CSR / Prerender.io 架構 重構為 Next.js SSR，並透過資源載入與請求時機調整優化 SEO 與網站效能；同時開發分享行程與車資預估等核心功能頁。",
@@ -70,11 +145,15 @@ const RESUME: IResume = {
           },
           {
             label: "作品集連結",
-            value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: YOXI_REFACTOR.id })}`,
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: YOXI_REFACTOR.id,
+            }),
           },
         ],
       },
       {
+        type: AchievementType.Professional,
         title: "多通路叫車產品",
         intro:
           '負責"企業版、據點叫車、QRCode 與超商等多通路叫車產品"前端實作與維運，並整合後台操作與多角色使用流程。',
@@ -94,11 +173,15 @@ const RESUME: IResume = {
         links: [
           {
             label: `作品集連結 - ${STATE_MACHINE.title}`,
-            value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: STATE_MACHINE.id })}`,
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: STATE_MACHINE.id,
+            }),
           },
         ],
       },
       {
+        type: AchievementType.Professional,
         title: "AIO / SEO 分析與檢核平台（0→1）",
         intro:
           "從 0 到 1 規劃 AIO / SEO 分析與檢核平台，整合 OpenAPI、JSON-LD、robots.txt、sitemap.xml 等網站資料，建立 AI 評估、建議與比較流程。 ",
@@ -111,7 +194,10 @@ const RESUME: IResume = {
         links: [
           {
             label: "作品集連結",
-            value: `${process.env.NEXT_PUBLIC_API_BASE_URL}${Route.project.detail({ lang: Lang.Zh_Hant_TW, id: SEO_AIO.id })}`,
+            value: Route.project.detail({
+              lang: "zh-Hant-TW",
+              id: SEO_AIO.id,
+            }),
           },
         ],
       },
@@ -204,4 +290,4 @@ const RESUME: IResume = {
   },
 };
 
-export default RESUME
+export default RESUME;

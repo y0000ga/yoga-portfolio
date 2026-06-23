@@ -1,13 +1,20 @@
 ﻿import { ISideProject, Project } from "@/types/project";
+import MEDICHECK_AI_ASSISTED_WORKFLOW from "./medication-ai-assisted";
+import MEDICATION_BACKEND from "./medication-backend";
 
 const MEDICATION_FRONTEND: ISideProject = {
   type: Project.SideProject,
   id: "medicheck-frontend",
   title: "MediCheck 服藥追蹤 (Mobile)",
+  thumbnail: '/medi-check-frontend/thumbnail.png',
   relatedProjects: [
     {
-      id: "medicheck-schedule-backend",
-      name: "MediCheck 服藥追蹤 (Backend)",
+      id: MEDICATION_BACKEND.id,
+      name: MEDICATION_BACKEND.title,
+    },
+    {
+      name: MEDICHECK_AI_ASSISTED_WORKFLOW.title,
+      id: MEDICHECK_AI_ASSISTED_WORKFLOW.id,
     },
   ],
 
@@ -164,4 +171,4 @@ sequenceDiagram
   repoURL: "https://github.com/y0000ga/medi-check-frontend",
 };
 
-export default MEDICATION_FRONTEND
+export default MEDICATION_FRONTEND;

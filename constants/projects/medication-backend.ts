@@ -1,11 +1,12 @@
 import { ISideProject, Project } from "@/types/project";
-import MEDICATION_FRONTEND from "./medication-frontend";
 
+import MEDICHECK_AI_ASSISTED_WORKFLOW from "./medication-ai-assisted";
 
 const MEDICATION_BACKEND: ISideProject = {
   type: Project.SideProject,
   id: "medicheck-schedule-backend",
   title: "MediCheck 服藥追蹤 (Backend)",
+  thumbnail:'/medi-check-backend/thumbnail.png',
   techStack: [
     "Python",
     "FastAPI",
@@ -17,8 +18,12 @@ const MEDICATION_BACKEND: ISideProject = {
   ],
   relatedProjects: [
     {
-      name: MEDICATION_FRONTEND.title,
-      id: MEDICATION_FRONTEND.id,
+      id: "medicheck-frontend",
+      name: "MediCheck 服藥追蹤 (Mobile)",
+    },
+    {
+      name: MEDICHECK_AI_ASSISTED_WORKFLOW.title,
+      id: MEDICHECK_AI_ASSISTED_WORKFLOW.id,
     },
   ],
   intro:
@@ -158,4 +163,4 @@ erDiagram
   repoURL: "https://github.com/y0000ga/medi-check-backend",
 };
 
-export default MEDICATION_BACKEND
+export default MEDICATION_BACKEND;
