@@ -6,10 +6,17 @@ interface IWorkExperienceItem {
   contents: string[];
 }
 
+export enum AchievementType {
+  Professional,
+  Personal
+}
+
 interface IAchievementItem {
+  type: AchievementType,
   title: string;
   intro: string;
-  techStack: string[];
+  techStack: string [];
+  techStackSeries?: {label:string,value:string[]}[]
   results: string[];
   links: Array<{ value: string; label: string }>;
 }

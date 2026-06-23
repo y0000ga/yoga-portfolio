@@ -171,6 +171,7 @@ const Page = async ({ params }: IBasePageProps) => {
             techStack,
             results,
             links,
+            techStackSeries,
           }) => (
             <ListItem
               title={title}
@@ -182,7 +183,15 @@ const Page = async ({ params }: IBasePageProps) => {
               <h5>{dict.common.results}</h5>
               <InfoList list={results} />
               <h5>{dict.common.techStack}</h5>
-              <Tags list={techStack} />
+              {techStack.length > 0 && <Tags list={techStack} />}
+              {techStackSeries &&
+                techStackSeries.map(({ value, label }) => (
+                  <div key={label}>
+                    <h6>{label}</h6>
+                    <Tags list={value} />
+                  </div>
+                ))}
+
               {links.length > 0 && (
                 <div className="flex flex-wrap gap-2 pt-2">
                   {links.map(({ label, value }) => (

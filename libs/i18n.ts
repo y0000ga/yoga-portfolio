@@ -192,7 +192,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
       viewResume: "查看履歷",
       retry: "重新嘗試",
       results: "成果",
-      techStack: "技術棧",
+      techStack: "Tech Stack",
       reset: "重設",
       close: "關閉",
       zoomIn: "放大",
@@ -259,7 +259,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
       location: "台北，台灣",
       paragraph: {
         experience: "工作經歷",
-        achievement: "成果整理",
+        achievement: "專案成就",
         skill: "技能",
         education: "學歷",
       },

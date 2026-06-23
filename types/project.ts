@@ -24,6 +24,7 @@ interface IBaseProject {
   demos: Array<IMedia>;
   techStack: string[];
   relatedProjects: { name: string; id: string }[];
+  thumbnail: string
 }
 
 interface IMedia {
@@ -53,7 +54,7 @@ export interface ISideProject extends IBaseProject {
 
 export type IProject = ICaseStudy | ISideProject;
 
-export type IProjectIntro = Pick<IProject, "id" | "title" | "intro" | 'type'>;
+export type IProjectIntro = Pick<IProject, "id" | "title" | "intro" | 'type' | 'thumbnail'>;
 
 export enum ProjectParagraph {
   Demo = "Demo",

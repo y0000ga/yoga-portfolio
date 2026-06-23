@@ -100,8 +100,7 @@ const Page = async ({ params }: IBasePageProps) => {
       </header>
 
       <ul className="grid gap-4 lg:auto-rows-[minmax(10rem,auto)] lg:grid-cols-12">
-        {projectDetails.map(({ title, intro, id, detail }, index) => {
-          const image = detail?.demos[0];
+        {projectDetails.map(({ title, intro, id, detail, thumbnail }, index) => {
           const pattern =
             COLUMN_PATTERNS[index % COLUMN_PATTERNS.length];
           const isFeatured = index === 0;
@@ -115,7 +114,7 @@ const Page = async ({ params }: IBasePageProps) => {
                 href={Route.project.detail({ lang, id })}
                 className="group border-border-T10 bg-surface-T50/85 hover:border-primary-T10/45 relative flex h-full overflow-hidden rounded-4xl border shadow-(--shadow-panel) transition-all hover:-translate-y-1"
               >
-                {image && (
+                {thumbnail && (
                   <div
                     className={
                       isFeatured
@@ -123,7 +122,7 @@ const Page = async ({ params }: IBasePageProps) => {
                         : "absolute inset-0 bg-cover bg-center opacity-20 transition-opacity duration-300 group-hover:opacity-28"
                     }
                     style={{
-                      backgroundImage: `url(${image.mediaURL})`,
+                      backgroundImage: `url(${thumbnail})`,
                     }}
                   />
                 )}

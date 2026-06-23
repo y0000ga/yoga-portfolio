@@ -153,7 +153,7 @@ export default function ZoomableMermaid({
             className={[
               "w-full overflow-hidden p-4 md:p-6",
               // 這層高度很重要，否則 SVG 會被壓得很小
-              "min-h-[320px] md:min-h-[420px]",
+              "min-h-[320px] max-h-80 md:min-h-[420px] md:max-h-105",
               previewClassName,
             ].join(" ")}
           >

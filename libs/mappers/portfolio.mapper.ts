@@ -13,10 +13,12 @@ export const toProjectIntro = ({
   id,
   title,
   intro,
-  type
+  type,
+  thumbnail
 }: IProject): IProjectIntro => ({
   id,
   title,
   intro,
-  type: type
+  type,
+  thumbnail,
 });
