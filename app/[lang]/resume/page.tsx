@@ -90,7 +90,7 @@ const Page = async ({ params }: IBasePageProps) => {
         <div className="flex min-w-0 flex-col gap-5">
           <div className="space-y-3">
             <h1 className="text-[36px] leading-none md:text-[72px]">
-              <span className="text-primary-T10">Yu-Chia</span> Huang
+              <span className="text-primary-T10">黃</span> 于家
             </h1>
             <h2 className="text-text-T20 text-[18px] font-semibold md:text-[32px]">
               {keywords.join(" | ")}
