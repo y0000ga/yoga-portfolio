@@ -160,12 +160,13 @@ export const BackToTop = () => {
     >
       <div className="flex flex-col items-center gap-2">
         <span className="text-primary-T20 text-[11px] font-semibold tracking-[0.12em]">
-          履歷下載
+          前往履歷
         </span>
         <a
-          href="/履歷_黃于家.pdf"
-          download="履歷_黃于家.pdf"
-          aria-label="履歷下載"
+          href="https://docs.google.com/document/d/1JJBiM6n5JuyhAM9oc2ssJD7fIJ8jTVTFDVa50I4L-a0"
+          aria-label="前往履歷"
+          target="_blank"
+          rel="noopener"
           className={actionButtonClassName}
         >
           <ArrowDownTrayIcon className="size-5" />
