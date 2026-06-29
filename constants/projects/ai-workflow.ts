@@ -1,10 +1,11 @@
 import { ICaseStudy, Project } from "@/types/project";
+import { AI_WORKFLOW_PROJECT } from "./registry";
 
 const AI_WORKFLOW: ICaseStudy = {
   type: Project.CaseStudy,
-  id: "ai-frontend-workflow",
-  title: "AI 輔助前端開發流程導入與風險控管",
-  thumbnail: '/ai-workflow/thumbnail.png',
+  id: AI_WORKFLOW_PROJECT.id,
+  title: AI_WORKFLOW_PROJECT.title,
+  thumbnail: "/ai-workflow/thumbnail.png",
   relatedProjects: [],
   techStack: [
     "AI-assisted Development",
@@ -23,22 +24,50 @@ const AI_WORKFLOW: ICaseStudy = {
     team: "Frontend team",
     role: "AI-assisted workflow design / Prompt design / Frontend process pilot",
   },
-  problems: [
-    "前端專案中存在既有元件規則、商業流程、資料流與歷史實作脈絡，AI 若直接修改程式碼容易誤解需求或忽略既有規範。",
-    "PM 需求與實際程式結構之間常需要工程師進一步拆解，若缺少明確修改細則，容易在實作與 review 階段產生返工。",
-    "AI 產出程式碼時可能修改超出預期範圍，造成不必要的 diff、review 負擔與驗證成本。",
-    "不同工程師使用 AI 的方式不一致，導致產出品質、修改範圍、prompt 格式與可追蹤性不穩定。",
-    "風險檢查與測試案例常在開發後期才補，容易遺漏既有流程、邊界情境或回歸測試範圍。",
+
+  FAQs: [
+    {
+      question: "這個 case study 主要想解決什麼問題？",
+      answer:
+        "此案例聚焦於在公司既有前端專案中導入 AI 輔助開發流程。核心問題不是讓 AI 直接產生程式碼，而是如何讓 AI 在既有元件規則、商業流程、資料流與歷史實作脈絡下，協助工程師進行需求拆解、規則比對、修改細則整理、風險檢查與測試案例草稿產出，同時降低需求誤解、越界修改與 review 成本。",
+    },
+    {
+      question: "為什麼不能直接讓 AI 修改前端程式碼？",
+      answer:
+        "公司前端專案通常存在既有元件規則、資料流、商業流程與歷史實作脈絡。若 AI 直接根據 PM 需求修改程式碼，容易忽略既有規範、誤解需求、修改超出預期範圍，甚至產生不必要的 diff，增加 review 與驗證成本。因此流程上先讓 AI 協助分析需求與整理修改細則，再由工程師確認範圍後才進入局部實作輔助。",
+    },
+    {
+      question: "AI 在這個流程中的角色是什麼？",
+      answer:
+        "AI 被拆分為 Requirement Analyst、Assisted Implementer 與 Review Assistant 三種角色。Requirement Analyst 負責讀取需求、比對 Wiki / 現有程式 / 歷史規則，整理 gap analysis、影響範圍與待確認問題。Assisted Implementer 只在工程師確認修改細則後，針對指定模組或 component 提供局部修改建議。Review Assistant 則協助整理 review checklist、潛在風險、測試缺口與測試案例草稿。",
+    },
+    {
+      question: "如何避免 AI 越界修改？",
+      answer:
+        "流程上會先由工程師確認 source of truth、修改細則與可修改範圍，再限制 AI 只能針對指定檔案、指定模組、指定 component 或指定 API flow 進行調整。AI 的輸出被定位為修改建議或實作草稿，而不是可直接合併的最終程式碼。最終修改、review 與提交仍由工程師負責。",
+    },
+    {
+      question: "如何讓 AI 產出更貼近既有專案脈絡？",
+      answer:
+        "導入前會先整理前端專案 Wiki、元件規則、資料流與常見開發規範，作為 AI 判斷需求與修改方向的 context baseline。需求進入實作前，AI 會先對照既有規則與現有程式，產出差異分析、影響範圍、待確認問題與修改細則草稿，避免只產生通用型程式碼。",
+    },
+    {
+      question: "工程師在流程中負責哪些決策？",
+      answer:
+        "工程師負責確認 source of truth、需求是否明確、修改細則是否合理、AI 是否允許進入輔助實作階段、實際修改範圍、程式碼審查、測試驗證與最終提交。AI 可以協助整理、分析、產生草稿與檢查風險，但不取代工程師的需求判斷、實作責任與 review 責任。",
+    },
+    {
+      question: "這個流程如何協助 review 與測試？",
+      answer:
+        "AI 不只協助實作，也會在實作前後整理 review checklist、潛在風險、測試缺口與測試案例草稿。這些產出可作為工程師 review 與驗證時的參考，讓風險檢查與測試設計提前進入開發流程，而不是等到開發後期才補。",
+    },
+    {
+      question: "這個流程目前的導入範圍到哪裡？",
+      answer:
+        "此案例屬於公司前端團隊內的初步流程實驗 / pilot，重點是建立可追蹤、可控管、可被工程師審查的 AI-assisted frontend workflow。目前尚未串接 CI/CD，也不是完整自動化 pipeline，而是先將 AI 放在需求分析、修改細則、輔助實作、review checklist 與測試案例草稿等低風險且高輔助價值的位置。",
+    },
   ],
-  solution: [
-    "先整理前端專案 Wiki、元件規則、資料流與常見開發規範，作為 AI 判斷需求與修改方向的 context baseline。",
-    "將 AI 使用流程拆成 requirement analysis、gap analysis、modification spec、bounded implementation、review checklist 與 test case drafting，避免直接從需求跳到程式碼修改。",
-    "在需求進入實作前，先讓 AI 協助比對既有規則與程式脈絡，整理差異分析、影響範圍、待確認問題與修改細則草稿。",
-    "由工程師確認修改細則與實作邊界後，再使用 AI 輔助產生局部程式修改建議或實作草稿。",
-    "限制 AI 修改範圍，要求其依照指定檔案、指定模組、指定 component 或指定 API flow 進行調整，避免越界修改。",
-    "讓 AI 輔助整理 review checklist、潛在風險、測試缺口與測試案例草稿，作為工程師 review 與驗證的參考。",
-    "整個流程仍由工程師主導需求判斷、修改確認、程式碼審查與最終提交，AI 僅作為分析、整理與輔助實作工具。",
-  ],
+
   impacts: [
     "降低 AI 直接修改程式碼造成的需求誤解、越界修改與返工風險。",
     "讓需求拆解、修改範圍、待確認問題與 review 重點更容易被文件化與追蹤。",

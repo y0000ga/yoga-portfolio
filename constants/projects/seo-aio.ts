@@ -1,11 +1,12 @@
-import { ICaseStudy, Project } from "@/types/project";
+import { ICaseStudy, MediaType, Project } from "@/types/project";
+import { SEO_AIO_PROJECT } from "./registry";
 
 const SEO_AIO: ICaseStudy = {
   repoURL: "https://github.com/y0000ga/SiteSignal",
   thumbnail: "/site-signal/thumbnail.png",
   type: Project.CaseStudy,
-  id: "aioseo",
-  title: "SiteSignal — AIO / SEO 站點分析平台（0→1）",
+  id: SEO_AIO_PROJECT.id,
+  title: SEO_AIO_PROJECT.title,
   techStack: [
     "Next.js",
     "React",
@@ -26,22 +27,47 @@ const SEO_AIO: ICaseStudy = {
     role: "Frontend 負責儀表板設計、分析流程規劃與資料視覺化呈現",
   },
 
-  problems: [
-    "缺少可以同時整合 SEO 與 AIO 評估資訊的單一觀測平台，站點健康度、內容結構與優化優先級難以集中檢視。",
-    "站點資料來源分散，包含 metadata、JSON-LD、sitemap、頁面結構與內容訊號，爬取、解析、比對與排序流程不透明。",
-    "團隊過去需要人工整理頁面狀態與問題清單，難以快速判斷哪些站點或頁面應優先改善。",
-    "多站點分析需要一致的資料格式與評分規則，否則不同站點之間難以進行橫向比較。",
-    "分析結果若只停留在 raw data，使用者仍需自行解讀，缺少能快速定位異常、比較差異與追蹤改善方向的視覺化介面。",
-  ],
-
-  solution: [
-    "建立 crawler pipeline，抓取 metadata、JSON-LD、sitemap、頁面結構與內容訊號，作為 SEO / AIO 分析資料來源。",
-    "將多來源資料正規化為統一分析模型，讓不同站點與頁面可以使用一致的欄位、指標與評分規則進行比較。",
-    "設計 rule-based scoring 機制，先以可解釋的靜態規則評估站點健康度、內容完整性與結構化資料狀態，作為 AI-ready analysis pipeline 的基礎。",
-    "建立 dashboard、站點列表、搜尋、篩選與細節頁，讓使用者可以從總覽指標一路 drill down 到單一站點或單一頁面的分析結果。",
-    "設計多種視覺化元件，包含 overview cards、分佈圖、雷達圖、堆疊圖與熱圖，用於呈現站點差異、異常聚集與指標分布。",
-    "加入 SEO / AIO 評估視角，將分析結果轉換為可排序的優先級，協助團隊快速識別異常頁面與優先處理項目。",
-    "保留後續導入 AI 判斷的資料結構與流程邊界，使目前的 rule-based analysis 可逐步擴充為更貼近實際情境的 AI-assisted evaluation。",
+  FAQs: [
+    {
+      question: "這個 case study 主要想解決什麼問題？",
+      answer:
+        "此案例聚焦於從 0 到 1 建立 AIO / SEO 站點分析平台。核心問題是團隊缺少一個能整合 crawler、metadata、JSON-LD、sitemap、頁面結構、內容訊號與評分結果的單一觀測平台，導致站點健康度、內容表現與優化優先順序難以集中檢視與比較。",
+    },
+    {
+      question: "為什麼需要建立 crawler pipeline？",
+      answer:
+        "SEO / AIO 分析所需資料分散在 metadata、JSON-LD、sitemap、頁面結構與內容訊號中，若沒有 crawler pipeline，資料擷取、解析、清洗與比對流程會高度依賴人工處理。此平台透過 crawler pipeline 將站點資料系統化收集，作為後續 normalize、score 與 visualize 的基礎。",
+    },
+    {
+      question: "如何讓不同站點之間可以被比較？",
+      answer:
+        "平台將多來源站點資料正規化為統一分析模型，讓不同站點與頁面可以使用一致的欄位、指標與評分規則進行橫向比較。這避免分析結果只停留在各自獨立的 raw data，也讓後續排序、篩選與優先級判斷有共同依據。",
+    },
+    {
+      question: "評分機制是如何設計的？",
+      answer:
+        "目前採用 rule-based scoring 作為第一階段評估方式，先以可解釋的靜態規則分析站點健康度、內容完整性、結構化資料狀態與 SEO / AIO 相關訊號。這讓分析結果具備可追蹤性，也為後續導入更進一步的 AI-assisted evaluation 保留資料結構與流程邊界。",
+    },
+    {
+      question: "Frontend 在這個平台中負責什麼？",
+      answer:
+        "Frontend 不只是呈現資料，而是負責將 crawler 與 scoring pipeline 的結果轉換成可理解、可比較、可排序的決策輔助介面。實作包含 dashboard、站點列表、搜尋、篩選、細節頁，以及 overview cards、分佈圖、雷達圖、堆疊圖與熱圖等視覺化元件。",
+    },
+    {
+      question: "如何協助使用者判斷優化優先順序？",
+      answer:
+        "平台將 SEO / AIO 分析結果轉換為可排序的指標與視覺化資訊，讓使用者能從總覽快速掌握整體站點健康度，再 drill down 到單一站點或頁面的異常項目。透過搜尋、篩選、分佈圖與熱圖，團隊可以更快定位異常聚集區與優先處理頁面。",
+    },
+    {
+      question: "這個平台和單純資料報表有什麼不同？",
+      answer:
+        "此平台不只是顯示 raw data，而是建立 crawler → normalize → score → visualize 的完整分析流程。它將分散資料轉換為統一模型，再透過評分與視覺化介面呈現站點差異、異常分布與改善方向，使資料能直接支援分析與決策。",
+    },
+    {
+      question: "目前 AIO 分析的限制是什麼？",
+      answer:
+        "目前評分機制以規則與靜態資料為主，主要用於示範與驗證分析流程，因此評分結果僅供參考。後續可在既有 crawler pipeline、統一資料模型與 scoring boundary 上逐步導入 AI 判斷，使分析更貼近實際 SEO / AIO 情境。",
+    },
   ],
 
   impacts: [
@@ -55,38 +81,47 @@ const SEO_AIO: ICaseStudy = {
 
   demos: [
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_overview.png",
       content: "平台總覽，快速掌握整體站點健康度與分析概況",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_detail.png",
       content: "站點細節頁，可追蹤單一站點的完整分析結果",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_search.png",
       content: "搜尋結果頁，協助快速定位特定站點或頁面",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_list.png",
       content: "站點清單頁，方便批次檢視與比較分析對象",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_heatmap.png",
       content: "熱圖視覺化，呈現站點分佈與異常聚集情況",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_radar.png",
       content: "雷達圖比較，呈現各站點在不同指標上的差異",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_distrubution.png",
       content: "分佈圖，用來觀察整體指標分布與集中區間",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_stack.png",
       content: "堆疊圖，呈現多維度指標的組成與變化",
     },
     {
+      type: MediaType.Picture,
       mediaURL: "/site-signal/site-signal_flow.png",
       content: "分析流程圖，說明從資料擷取到評分輸出的流程",
     },

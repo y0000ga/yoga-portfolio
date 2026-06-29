@@ -1,21 +1,12 @@
-import { ISideProject, Project } from "@/types/project";
+import { ISideProject, MediaType, Project } from "@/types/project";
+import { CHROME_EXTENSION_PROJECT } from "./registry";
 
 const CHROME_EXTENSION: ISideProject = {
   relatedProjects: [],
   type: Project.SideProject,
-  id: "ai-prompt-workspace",
-  title: "AI Prompt Workspace",
+  id: CHROME_EXTENSION_PROJECT.id,
+  title: CHROME_EXTENSION_PROJECT.title,
   thumbnail: "/prompt-workspace/thumbnail.png",
-  techStack: [
-    "React",
-    "TypeScript",
-    "Chrome Extension API",
-    "Manifest V3",
-    "Context Menu",
-    "Side Panel",
-    "Chrome Storage",
-    "Browser Extension Architecture",
-  ],
   intro:
     "建立 browser-native 的 AI prompt workspace，透過 Chrome Extension 集中管理、擷取、搜尋與重用 prompts，支援在不同網站與 AI 工具間快速切換工作流。",
 
@@ -43,13 +34,6 @@ const CHROME_EXTENSION: ISideProject = {
     "驗證 Chrome Extension 作為個人 AI workflow layer 的可行性，後續可延伸至 prompt template、import / export、sync 與快捷鍵操作。",
   ],
 
-  demos: [
-    {
-      mediaURL: "/prompt-workspace/operation.mp4",
-      content: "主畫面與操作",
-    },
-  ],
-
   architecture: {
     diagrams: [
       {
@@ -69,7 +53,28 @@ const CHROME_EXTENSION: ISideProject = {
     ],
   },
 
-  repoURL: "https://github.com/y0000ga/ai-prompt-workspace",
+  variants: [
+    {
+      techStack: [
+        "React",
+        "TypeScript",
+        "Chrome Extension API",
+        "Manifest V3",
+        "Context Menu",
+        "Side Panel",
+        "Chrome Storage",
+        "Browser Extension Architecture",
+      ],
+      repoURL: "https://github.com/y0000ga/ai-prompt-workspace",
+      demos: [
+        {
+          type: MediaType.Video,
+          mediaURL: "/prompt-workspace/operation.mp4",
+          content: "主畫面與操作",
+        },
+      ],
+    },
+  ],
 };
 
 

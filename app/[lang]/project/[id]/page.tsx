@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IconInfo, InfoList } from "@/components/UI/Content";
+import { FAQList, IconInfo, InfoList } from "@/components/UI/Content";
 import { GithubIcon } from "@/components/UI/Icon";
 import { AsidePage } from "@/components/UI/Page";
 import Paragraph from "@/components/UI/Paragraph";
@@ -15,13 +15,21 @@ import { Route } from "@/helpers/route";
 import { getProjectById } from "@/libs/content";
 import { getDictionary, hasLocale } from "@/libs/i18n";
 import { createPageMetadata } from "@/libs/site";
-import { Project, ProjectParagraph } from "@/types/project";
+import {
+  IMedia,
+  MediaType,
+  Project,
+  ProjectParagraph,
+} from "@/types/project";
 import Mermaid from "@/components/UI/Mermaid";
 
 interface IProjectPageProps {
   params: Promise<{
     id: string;
     lang: string;
+  }>;
+  searchParams: Promise<{
+    variant?: string;
   }>;
 }
 
@@ -30,11 +38,10 @@ const PARAGRAPH_ORDER = [
   ProjectParagraph.Demo,
   ProjectParagraph.Problem,
   ProjectParagraph.Solution,
+  ProjectParagraph.FAQs,
+  ProjectParagraph.Architecture,
   ProjectParagraph.Impact,
 ];
-
-const isVideoMedia = (mediaURL: string) =>
-  /\.(mp4|webm|mov)$/i.test(mediaURL);
 
 export const generateMetadata = async ({
   params,
@@ -65,8 +72,9 @@ export const generateMetadata = async ({
   });
 };
 
-const Page = async ({ params }: IProjectPageProps) => {
+const Page = async ({ params, searchParams }: IProjectPageProps) => {
   const { id, lang } = await params;
+  const { variant: variantParam } = await searchParams;
 
   if (!hasLocale(lang)) {
     notFound();
@@ -85,26 +93,105 @@ const Page = async ({ params }: IProjectPageProps) => {
   const {
     type,
     title,
-    problems,
     impacts,
     architecture,
     intro,
-    solution,
-    techStack,
     relatedProjects,
   } = project;
+
+  const isMultiVariant =
+    project.type === Project.SideProject && project.variants.length > 1;
+
+  const activeVariantIndex = isMultiVariant
+    ? Math.max(
+        0,
+        Math.min(
+          Number.isNaN(Number(variantParam)) ? 0 : Number(variantParam),
+          project.variants.length - 1,
+        ),
+      )
+    : 0;
+
+  // Values used in header and single-variant Demo paragraph
+  let displayTechStack: string[] = [];
+  let displayRepoURL: string | undefined;
+  let displayDemos: IMedia[] = [];
+
+  if (project.type === Project.CaseStudy) {
+    displayTechStack = project.techStack;
+    displayRepoURL = project.repoURL;
+    displayDemos = project.demos;
+  } else if (!isMultiVariant) {
+    const v = project.variants[0];
+    displayTechStack = v.techStack;
+    displayRepoURL = v.repoURL;
+    displayDemos = v.demos;
+  }
+
+  const activeVariant =
+    project.type === Project.SideProject
+      ? project.variants[activeVariantIndex]
+      : null;
+
+  const hasDemos =
+    project.type === Project.SideProject
+      ? isMultiVariant || project.variants[0].demos.length > 0
+      : project.demos.length > 0;
 
   const navs = PARAGRAPH_ORDER.map((paragraphId) => ({
     id: paragraphId,
     title: paragraphLabels[paragraphId],
   })).filter((item) => {
     return !(
-      (project.demos.length === 0 &&
-        item.id === ProjectParagraph.Demo) ||
+      (!hasDemos && item.id === ProjectParagraph.Demo) ||
       (relatedProjects?.length === 0 &&
         item.id === ProjectParagraph.RelativeProject)
     );
   });
+
+  const renderDemoItems = (demos: IMedia[]) =>
+    demos.map(({ mediaURL, content, type: mediaType }) => (
+      <li
+        key={content}
+        className="flex w-full flex-col gap-3"
+      >
+        <div className="mx-auto w-full overflow-hidden rounded-3xl md:w-1/2">
+          {mediaType === MediaType.Video && (
+            <div className="border-border-T10 bg-surface-T50/80 overflow-hidden rounded-[24px] border p-2 md:p-3">
+              <ZoomableVideo
+                src={mediaURL}
+                className="w-full"
+                videoClassName="rounded-[18px]"
+                title={content}
+              />
+            </div>
+          )}
+          {mediaType === MediaType.Picture && (
+            <ZoomableImage
+              src={mediaURL}
+              className="mx-auto w-full md:w-1/2"
+              imageClassName="aspect-[8/5] max-h-[16rem] bg-surface-T10 object-cover"
+              width={1200}
+              height={750}
+              alt={content}
+            />
+          )}
+        </div>
+        {mediaType === MediaType.Hyperlink ? (
+          <a
+            href={mediaURL}
+            target="_blank"
+            className="text-text-T20 hover:text-primary-T10 mx-auto w-full text-center"
+          >
+            {content}
+          </a>
+        ) : (
+          <p className="text-text-T20 mx-auto w-full text-center">
+            {content}
+          </p>
+        )}
+      </li>
+    ));
 
   return (
     <AsidePage navs={navs}>
@@ -115,10 +202,10 @@ const Page = async ({ params }: IProjectPageProps) => {
               {projectTypeLabels[type]}
             </span>
 
-            {project.repoURL && (
+            {displayRepoURL && (
               <IconInfo
                 icon={GithubIcon}
-                url={project.repoURL}
+                url={displayRepoURL}
               />
             )}
           </div>
@@ -128,16 +215,18 @@ const Page = async ({ params }: IProjectPageProps) => {
               {title}
             </h1>
             <h4 className="text-text-T20">{intro}</h4>
-            <div className="flex flex-wrap items-center gap-3">
-              {techStack.map((item) => (
-                <span
-                  key={item}
-                  className="border-primary-T10/25 bg-primary-T30 text-primary-T20 rounded-full border px-3 py-1 text-[12px] tracking-[0.16em] uppercase"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
+            {displayTechStack.length > 0 && (
+              <div className="flex flex-wrap items-center gap-3">
+                {displayTechStack.map((item) => (
+                  <span
+                    key={item}
+                    className="border-primary-T10/25 bg-primary-T30 text-primary-T20 rounded-full border px-3 py-1 text-[12px] tracking-[0.16em] uppercase"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {type === Project.CaseStudy && (
@@ -195,57 +284,91 @@ const Page = async ({ params }: IProjectPageProps) => {
         </Paragraph>
       )}
 
-      {project.demos.length > 0 && (
+      {/* Multi-variant SideProject: tabs + active variant content */}
+      {project.type === Project.SideProject && isMultiVariant && (
         <Paragraph
           id={ProjectParagraph.Demo}
           title={paragraphLabels[ProjectParagraph.Demo]}
         >
-          {project.demos.map(({ mediaURL, content }) => (
-            <li
-              key={content}
-              className="flex w-full flex-col gap-3"
-            >
-              <div className="mx-auto w-full overflow-hidden rounded-3xl md:w-1/2">
-                {isVideoMedia(mediaURL) ? (
-                  <div className="border-border-T10 bg-surface-T50/80 overflow-hidden rounded-[24px] border p-2 md:p-3">
-                    <ZoomableVideo
-                      src={mediaURL}
-                      className="w-full"
-                      videoClassName="rounded-[18px]"
-                      title={content}
-                    />
-                  </div>
-                ) : (
-                  <ZoomableImage
-                    src={mediaURL}
-                    className="mx-auto w-full md:w-1/2"
-                    imageClassName="aspect-[8/5] max-h-[16rem] bg-surface-T10 object-cover"
-                    width={1200}
-                    height={750}
-                    alt={content}
-                  />
-                )}
-              </div>
-              <p className="text-text-T20 mx-auto w-full text-center">
-                {content}
-              </p>
-            </li>
-          ))}
+          <li className="flex flex-wrap gap-2">
+            {project.variants.map((variant, i) => (
+              <Link
+                key={i}
+                href={`?variant=${i}`}
+                scroll={false}
+                className={`rounded-full border px-4 py-1.5 text-sm transition-all ${
+                  i === activeVariantIndex
+                    ? "border-primary-T10 bg-primary-T30 text-primary-T10"
+                    : "border-border-T10 bg-surface-T40/60 text-text-T20 hover:border-primary-T10/40"
+                }`}
+              >
+                {variant.label ?? `Version ${i + 1}`}
+              </Link>
+            ))}
+          </li>
+
+          <li className="flex flex-wrap items-center gap-3">
+            {activeVariant!.repoURL && (
+              <IconInfo
+                icon={GithubIcon}
+                url={activeVariant!.repoURL}
+              />
+            )}
+            {activeVariant!.techStack.map((item) => (
+              <span
+                key={item}
+                className="border-primary-T10/25 bg-primary-T30 text-primary-T20 rounded-full border px-3 py-1 text-[12px] tracking-[0.16em] uppercase"
+              >
+                {item}
+              </span>
+            ))}
+          </li>
+
+          {renderDemoItems(activeVariant!.demos)}
+        </Paragraph>
+      )}
+
+      {/* Single-variant SideProject or CaseStudy: demo paragraph */}
+      {!isMultiVariant && displayDemos.length > 0 && (
+        <Paragraph
+          id={ProjectParagraph.Demo}
+          title={paragraphLabels[ProjectParagraph.Demo]}
+        >
+          {renderDemoItems(displayDemos)}
+        </Paragraph>
+      )}
+
+      {project.type === Project.SideProject && project.problems && (
+        <Paragraph
+          id={ProjectParagraph.Problem}
+          title={paragraphLabels[ProjectParagraph.Problem]}
+        >
+          <InfoList list={project.problems} />
+        </Paragraph>
+      )}
+
+      {project.type === Project.SideProject && (
+        <Paragraph
+          id={ProjectParagraph.Solution}
+          title={paragraphLabels[ProjectParagraph.Solution]}
+        >
+          <InfoList list={project.solution} />
+        </Paragraph>
+      )}
+
+      {project.type === Project.CaseStudy && project.FAQs && (
+        <Paragraph
+          id={ProjectParagraph.FAQs}
+          title={paragraphLabels[ProjectParagraph.FAQs]}
+        >
+          <FAQList list={project.FAQs} />
         </Paragraph>
       )}
 
       <Paragraph
-        id={ProjectParagraph.Problem}
-        title={paragraphLabels[ProjectParagraph.Problem]}
+        id={ProjectParagraph.Architecture}
+        title={paragraphLabels[ProjectParagraph.Architecture]}
       >
-        <InfoList list={problems} />
-      </Paragraph>
-
-      <Paragraph
-        id={ProjectParagraph.Solution}
-        title={paragraphLabels[ProjectParagraph.Solution]}
-      >
-        <InfoList list={solution} />
         <ul className="flex flex-col gap-5 md:gap-6">
           {architecture.diagrams.map(
             ({ title, caption, explanation, sources }) => (

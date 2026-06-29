@@ -241,7 +241,7 @@ const dictionaries: Record<SupportedLang, Dictionary> = {
       paragraph: {
         demo: "成果展示",
         problem: "問題與挑戰",
-        solution: "解法與設計",
+        solution: "解法",
         impact: "成果",
         relativeProject: "相關作品"
       },

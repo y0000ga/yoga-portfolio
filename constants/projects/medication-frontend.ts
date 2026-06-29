@@ -1,35 +1,24 @@
-﻿import { ISideProject, Project } from "@/types/project";
-import MEDICHECK_AI_ASSISTED_WORKFLOW from "./medication-ai-assisted";
-import MEDICATION_BACKEND from "./medication-backend";
+import { ISideProject, MediaType, Project } from "@/types/project";
+import { MEDICHECK_PROJECTS } from "./registry";
 
 const MEDICATION_FRONTEND: ISideProject = {
   type: Project.SideProject,
-  id: "medicheck-frontend",
-  title: "MediCheck 服藥追蹤 (Mobile)",
-  thumbnail: '/medi-check-frontend/thumbnail.png',
+  id: MEDICHECK_PROJECTS.frontend.id,
+  title: MEDICHECK_PROJECTS.frontend.title,
+  thumbnail: "/medi-check-frontend/thumbnail.png",
   relatedProjects: [
     {
-      id: MEDICATION_BACKEND.id,
-      name: MEDICATION_BACKEND.title,
+      id: MEDICHECK_PROJECTS.backend.id,
+      name: MEDICHECK_PROJECTS.backend.title,
     },
     {
-      name: MEDICHECK_AI_ASSISTED_WORKFLOW.title,
-      id: MEDICHECK_AI_ASSISTED_WORKFLOW.id,
+      name: MEDICHECK_PROJECTS.aiAssistedWorkflow.title,
+      id: MEDICHECK_PROJECTS.aiAssistedWorkflow.id,
     },
   ],
 
   intro:
-    "使用 Expo + React Native 建構行動端服藥追蹤系統，提供病人、藥品、提醒排程、服藥紀錄與照護關係管理，並與 backend 排程與 history 設計對齊，降低前端規則計算與資料處理複雜度。",
-
-  techStack: [
-    "React Native",
-    "Expo",
-    "Expo Router",
-    "TypeScript",
-    "Zustand",
-    "Day.js",
-    "RESTful API",
-  ],
+    "使用 Expo + React Native 建構行動端 / Vue 建構網頁端服藥追蹤系統，提供病人、藥品、提醒排程、服藥紀錄與照護關係管理，並與 backend 排程與 history 設計對齊，降低前端規則計算與資料處理複雜度。",
 
   problems: [
     "服藥排程涉及 recurrence、頻率與結束條件，若由前端自行處理規則展開與驗證，邏輯複雜且難以維護。",
@@ -41,7 +30,6 @@ const MEDICATION_FRONTEND: ISideProject = {
   solution: [
     "採用 Expo Router 的 file-based routing，將 public / protected routes 分離，統一登入與權限控管流程。",
     "將新增藥品與排程設計為 step flow（選擇病人 → 選擇藥品 → 設定內容），降低單頁複雜度並提升 UX。",
-    "使用 Zustand 管理使用者、viewer（當前操作病人）與 domain state，明確區分 user 與 patient 上下文。",
     "透過 API client abstraction（libs/api）統一 request / response 處理，並搭配 TypeScript 型別確保前後端契約一致。",
     "將排程邏輯（occurrence 展開、history merge）完全交由 backend 處理，前端僅負責顯示 event instance 與觸發操作。",
     "在列表頁實作搜尋、篩選、排序與分頁機制，支援藥品與病人資料在多情境下的查詢需求。",
@@ -54,45 +42,10 @@ const MEDICATION_FRONTEND: ISideProject = {
     "建立與 backend 對齊的資料流與 API 使用模式，提升整體系統一致性與可擴展性。",
   ],
 
-  demos: [
-    {
-      mediaURL: "/medi-check-frontend/overall.mp4",
-      content: "整體流程",
-    },
-    {
-      mediaURL: "/medi-check-frontend/invite-someone.mp4",
-      content: "邀請他人",
-    },
-    {
-      mediaURL: "/medi-check-frontend/accept-invitation.mp4",
-      content: "接受邀請",
-    },
-    {
-      mediaURL: "/medi-check-frontend/schedule.png",
-      content: "排程總覽",
-    },
-    {
-      mediaURL: "/medi-check-frontend/schedule-event.png",
-      content: "單一排程事件",
-    },
-    {
-      mediaURL: "/medi-check-frontend/patients.png",
-      content: "病患列表",
-    },
-    {
-      mediaURL: "/medi-check-frontend/medication.png",
-      content: "用藥管理",
-    },
-    {
-      mediaURL: "/medi-check-frontend/history.png",
-      content: "歷史紀錄",
-    },
-  ],
-
   architecture: {
     diagrams: [
       {
-        title: "MediCheck Frontend Architecture",
+        title: "MediCheck Mobile Architecture",
         caption: "以 Router + State + API 分層設計前端架構",
         explanation: [
           "app/ 專注路由與頁面組裝",
@@ -100,7 +53,6 @@ const MEDICATION_FRONTEND: ISideProject = {
           "shared/ 集中 store、API、token、env，避免重複",
           "mapper / domain model 分離，降低後端欄位變動對 UI 的影響",
           "components/ 提升重用與一致性",
-          "這套結構和 Expo Router 的 file-based routing 很合拍，也比較適合團隊協作",
         ],
         sources: {
           mermaid: `
@@ -168,7 +120,81 @@ sequenceDiagram
     ],
   },
 
-  repoURL: "https://github.com/y0000ga/medi-check-frontend",
+  variants: [
+    {
+      label: "網頁端",
+      techStack: [
+        "Nuxt 3",
+        "Vue 3",
+        "TypeScript",
+        "Nuxt UI v2",
+        "Tailwind CSS v3",
+        "VueUse",
+      ],
+      repoURL: "https://github.com/y0000ga/medi-check-website",
+      demos: [
+        {
+          type: MediaType.Hyperlink,
+          mediaURL:
+            "https://www.figma.com/design/CUWb4wPepuUaHgi0pkYqAL/MediCheck",
+          content: "Google Stitch + Figma 協作設計稿",
+        },
+      ],
+    },
+    {
+      label: "App 端",
+      techStack: [
+        "React Native",
+        "Expo",
+        "Expo Router",
+        "TypeScript",
+        "RESTful API",
+      ],
+      repoURL: "https://github.com/y0000ga/medi-check-mobile",
+      demos: [
+        {
+          type: MediaType.Video,
+          mediaURL: "/medi-check-frontend/overall.mp4",
+          content: "整體流程",
+        },
+        {
+          type: MediaType.Video,
+          mediaURL: "/medi-check-frontend/invite-someone.mp4",
+          content: "邀請他人",
+        },
+        {
+          type: MediaType.Video,
+          mediaURL: "/medi-check-frontend/accept-invitation.mp4",
+          content: "接受邀請",
+        },
+        {
+          type: MediaType.Picture,
+          mediaURL: "/medi-check-frontend/schedule.png",
+          content: "排程總覽",
+        },
+        {
+          type: MediaType.Picture,
+          mediaURL: "/medi-check-frontend/schedule-event.png",
+          content: "單一排程事件",
+        },
+        {
+          type: MediaType.Picture,
+          mediaURL: "/medi-check-frontend/patients.png",
+          content: "病患列表",
+        },
+        {
+          type: MediaType.Picture,
+          mediaURL: "/medi-check-frontend/medication.png",
+          content: "用藥管理",
+        },
+        {
+          type: MediaType.Picture,
+          mediaURL: "/medi-check-frontend/history.png",
+          content: "歷史紀錄",
+        },
+      ],
+    },
+  ],
 };
 
 export default MEDICATION_FRONTEND;

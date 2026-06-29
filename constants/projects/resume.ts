@@ -3,9 +3,7 @@ import { AchievementType, IResume } from "@/types/resume";
 import YOXI_REFACTOR from "./yoxi-refactor";
 import STATE_MACHINE from "./state-machine";
 import SEO_AIO from "./seo-aio";
-import MEDICATION_FRONTEND from "./medication-frontend";
-import MEDICATION_BACKEND from "./medication-backend";
-import MEDICHECK_AI_ASSISTED_WORKFLOW from "./medication-ai-assisted";
+import { MEDICHECK_PROJECTS } from "./registry";
 
 const RESUME: IResume = {
   keywords: ["前端", "REACT/NEXT.JS", "效能優化", "自動化測試"],
@@ -101,30 +99,32 @@ const RESUME: IResume = {
         ],
         links: [
           {
-            label: "Mobile 作品集連結",
+            label: MEDICHECK_PROJECTS.frontend.title + "作品集連結",
             value: Route.project.detail({
               lang: "zh-Hant-TW",
-              id: MEDICATION_FRONTEND.id,
+              id: MEDICHECK_PROJECTS.frontend.id,
             }),
           },
           {
-            label: "Backend 作品集連結",
+            label: MEDICHECK_PROJECTS.backend.title + "作品集連結",
             value: Route.project.detail({
               lang: "zh-Hant-TW",
-              id: MEDICATION_BACKEND.id,
+              id: MEDICHECK_PROJECTS.backend.id,
             }),
           },
           {
-            label: "AI-assisted 全端開發流程案例研究",
+            label:
+              MEDICHECK_PROJECTS.aiAssistedWorkflow.title +
+              "作品集連結",
             value: Route.project.detail({
               lang: "zh-Hant-TW",
-              id: MEDICHECK_AI_ASSISTED_WORKFLOW.id,
+              id: MEDICHECK_PROJECTS.aiAssistedWorkflow.id,
             }),
           },
           {
-            label: 'API Doc',
-            value: 'https://y0000ga.github.io/medi-check-backend/'
-          }
+            label: "API Doc",
+            value: "https://y0000ga.github.io/medi-check-backend/",
+          },
         ],
       },
       {

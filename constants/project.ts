@@ -11,6 +11,8 @@ export const getProjectParagraphLabels = (lang: Lang) => {
     [ProjectParagraph.Solution]: dict.project.paragraph.solution,
     [ProjectParagraph.Impact]: dict.project.paragraph.impact,
     [ProjectParagraph.RelativeProject]: dict.project.paragraph.relativeProject,
+    [ProjectParagraph.FAQs]: 'FAQs',
+    [ProjectParagraph.Architecture]:'結構與設計'
   };
 };
 
